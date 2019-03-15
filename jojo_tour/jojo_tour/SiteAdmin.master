@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SiteAdmin.master.cs" Inherits="SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -49,19 +49,19 @@
                 <div class="mr-auto"></div>
                 <ul class="navbar-nav mt-lg-0 ">
                     <li class="nav-item active">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/Home">Home</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Admin/Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/PackageTour">Package Tour</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Admin/Order">Order</a>
                     </li>
                     <li class="nav-item">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/PlanTour">Plan Tour</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Admin/PackageTour">Package Tour</a>
                     </li>
                     <li class="nav-item">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/TourTracking">Tour Tracking</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Admin/PlaceAndHotel">Place&Hotel</a>
                     </li>
                     <li class="nav-item">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/Review">Review</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Customer/Home">Logout</a>
                     </li>
                 </ul>
 
