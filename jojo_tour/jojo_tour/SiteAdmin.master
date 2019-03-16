@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <form runat="server">
+    <form runat="server" method="post" enctype="multipart/form-data">
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -72,7 +72,7 @@
             </asp:ContentPlaceHolder>           
         </div>
         <footer>
-            <div class="row bg-red-main warp p-3">
+            <div class="row bg-red-main warp py-2">
                 <div class="col-12 col-lg-4 ">
                     <div class="d-flex justify-content-center align-items-center w-100 h-100 ">
                         <h3 class="text-white">JOJOTOUR</h3>
@@ -101,7 +101,7 @@
                 </div>
 
             </div>
-            <p class="text-center py-2">&copy; <%: DateTime.Now.Year %> - JOJO Tour | All Rigths Reserved</p>
+            <p class="text-center">&copy; <%: DateTime.Now.Year %> - JOJO Tour | All Rigths Reserved</p>
         </footer>
     </form>
 </body>
