@@ -5,4 +5,30 @@
     background-color: #ef4c4c;
 }
 
-
+.input-file {
+    
+}
+    .input-file input[type="file"] {
+        display:none;
+    }
+    .input-file .input-label {
+        background: #007bff;
+        color: white;
+        padding: 0.375rem 0.75rem;
+        cursor: pointer;
+        border-radius: 0.25rem;
+    }
+        .input-file .input-label:hover {
+            background: #0463c9;
+            color: white;
+            padding: 0.375rem 0.75rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+        .input-file .input-label:active {
+            background: #0463c9;
+            color: white;
+            padding: 0.375rem 0.75rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }

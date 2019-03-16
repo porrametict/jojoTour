@@ -18,7 +18,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void ButtonSave_Click(object sender, EventArgs e)
 
     {
-        int CreatedId;
+        int CreatedId = 0;
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
         using (SqlConnection ConObj = new SqlConnection(ConnectString))
         {
@@ -37,81 +37,71 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
                 CreatedId = (int)CmObj.ExecuteScalar();
 
-                //System.Diagnostics.Debug.WriteLine(CreatedId);
-
-
-                if (CmObj.ExecuteNonQuery() > 0)
-                    
+                if (CreatedId != 0)
                 {
-                    //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกสำเร็จ')", true);
-
-                    //using (SqlDataReader DrObj = CmObj.ExecuteReader())
-                    //{
-                    //    DrObj.Read();
-
-                    //    if (DrObj.HasRows)
-                    //    {
-                    //        //TextBoxName.Text = DrObj["name"].ToString();
-
-                    //        //DropDownList1.SelectedValue = DrObj["c_id"].ToString();
-
-                    //        //TextBoxPrice.Text = DrObj["price"].ToString();
-
-                    //        //TextBoxDetail.Text = DrObj["detail"].ToString();
-                    //    }
-                    //    DrObj.Close();
-                    //}
-                    string dir_path = Server.MapPath("~/DataStorage/LocationImg/" + CreatedId);
-                    if (!Directory.Exists(dir_path)) {
-                        Directory.CreateDirectory(dir_path);
-
-                    }
-
-                    for (int i = 0; i < Request.Files.Count; i++)
-                    {
-
-                        HttpPostedFile file = Request.Files[i];
-                        if (file.ContentLength > 0)
-                        {
-                            string fname = Path.GetFileName(file.FileName);
-                            file.SaveAs(Server.MapPath(Path.Combine("~/DataStorage/LocationImg/" + CreatedId+"/", fname)));
-                            
-
-                            String SQL2 = "INSERT INTO image_location(location_id,image) VALUES (@location_id,@image)";
-                            using (SqlCommand CmObj2 = new SqlCommand())
-                            {
-                                CmObj2.CommandText = SQL2;
-                                CmObj2.Connection = ConObj;
-                                CmObj2.Parameters.AddWithValue("@location_id", CreatedId);
-                                CmObj2.Parameters.AddWithValue("@image", "/DataStorage/LocationImg/" + CreatedId + "/"+ fname);
-                                if (CmObj2.ExecuteNonQuery() > 0)
-                                {
-                                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกสำเร็จ')", true);
-                                }
-                                else
-                                {
-
-                                }
-                            }
-
-                        }
-
-                       
-
-                    }
-
                     
-
-
                 }
                 else
                 {
+                }
+
+                if (ConObj.State == System.Data.ConnectionState.Open)
+                    ConObj.Close();
+
+
+                //if (CmObj.ExecuteNonQuery() > 0)
+                //{
+                //    //System.Diagnostics.Debug.WriteLine(CreatedId);
+
+                //}
+                //else
+                //{
+
+                //}
+            }
+            ConObj.Close();
+            if (CreatedId != 0) {
+                ConObj.Open();
+                string dir_path = Server.MapPath("~/DataStorage/LocationImg/" + CreatedId);
+                if (!Directory.Exists(dir_path))
+                {
+                    Directory.CreateDirectory(dir_path);
 
                 }
 
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
 
+                    HttpPostedFile file = Request.Files[i];
+                    if (file.ContentLength > 0)
+                    {
+                        string fname = Path.GetFileName(file.FileName);
+                        file.SaveAs(Server.MapPath(Path.Combine("~/DataStorage/LocationImg/" + CreatedId + "/", fname)));
+
+
+                        String SQL2 = "INSERT INTO image_location(location_id,image) VALUES (@location_id,@image)";
+                        using (SqlCommand CmObj2 = new SqlCommand())
+                        {
+                            CmObj2.CommandText = SQL2;
+                            CmObj2.Connection = ConObj;
+                            CmObj2.Parameters.AddWithValue("@location_id", CreatedId);
+                            CmObj2.Parameters.AddWithValue("@image", "/DataStorage/LocationImg/" + CreatedId + "/" + fname);
+                            if (CmObj2.ExecuteNonQuery() > 0)
+                            {
+                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกสำเร็จ')", true);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+
+                    }
+
+                }
+                ConObj.Close();
             }
-            ConObj.Close();
+            
 
         }
     }

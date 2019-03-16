@@ -7,12 +7,15 @@
         <div class="col px-5 py-2 bg-light" >
             <div class="form-group ">
                 <label >ชื่อสถานที่ภาษาไทย</label>
-                <asp:TextBox ID="TextBoxTHname" CssClass="form-control " runat="server"></asp:TextBox>
+                <asp:TextBox ID="TextBoxTHname" CssClass="form-control " runat="server" ControlToValidate="TextBoxTHname"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorTHName" runat="server" ErrorMessage="RequiredFieldValidator" Display="Dynamic" ForeColor="#FF3300" ControlToValidate="TextBoxTHname" SetFocusOnError="True">กรุณากรอกช่องนี้</asp:RequiredFieldValidator>
             </div> 
 
             <div class="form-group ">
                 <label >ชื่อสถานที่ภาษาอังกฤษ</label>
                 <asp:TextBox ID="TextBoxENname" CssClass="form-control " runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorENName" runat="server" ErrorMessage="RequiredFieldValidator" Display="Dynamic" ForeColor="#FF3300" ControlToValidate="TextBoxENname" SetFocusOnError="True">กรุณากรอกช่องนี้</asp:RequiredFieldValidator>
+
             </div>
 
             <div class="row">
@@ -40,15 +43,16 @@
                 <asp:TextBox ID="TextBoxENdetail" CssClass="form-control " runat="server" TextMode="MultiLine" Rows="10"></asp:TextBox>
             </div>
 
-            <div method="post" enctype="multipart/form-data" runat="server">
+            <div>
                 Upload Images
                 <div id="showimage">
                 </div>
                 <br />
-                <input type="file" multiple="multiple" name="File1" id="File1" accept="image/*" class="form-control-file" />
-                <br />
-         
-                
+                <div class="input-file">
+                     <label for="File1" class="input-label">Select files</label>
+                    <input type="file" multiple="multiple" name="File1" id="File1" accept="image/*" class="form-control-file" />
+                </div>
+                <br />                   
                 <hr />
 
             </div>

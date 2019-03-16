@@ -72,7 +72,7 @@
             </asp:ContentPlaceHolder>           
         </div>
         <footer>
-            <div class="row bg-red-main warp py-2">
+            <div class="row bg-red-main warp m-0 p-3">
                 <div class="col-12 col-lg-4 ">
                     <div class="d-flex justify-content-center align-items-center w-100 h-100 ">
                         <h3 class="text-white">JOJOTOUR</h3>
