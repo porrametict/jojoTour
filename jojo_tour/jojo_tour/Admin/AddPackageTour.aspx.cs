@@ -17,28 +17,37 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
         LoadHotel();
         LoadPlace();
-        if (!IsPostBack) {
+        if (!IsPostBack)
+        {
             LoadSelectedHotel();
             LoadSelectedPlace();
-            
+            LoadHotel();
+            LoadPlace();
+
         }
-       
+
 
     }
 
-    public void LoadPlace() {
+    public void LoadPlace()
+    {
 
         string query = "SELECT lo.id as id,lo.th_name lo_th_name,lo.en_name lo_en_name,pic.image img,p.en_name p_en_name,p.th_name p_th_name FROM location lo";
         query += " left join image_location pic on lo.id = pic.location_id and pic.id in (select min(id) from image_location Group by location_id)  ";
         query += " left join province p on lo.province_id = p.id ";
 
+        query += "where type_location_id in (select id from type_location where en_name != 'Hotel' )";
+
         /// keyword Search
         string SearchKeyWord = TextBoxPalce.Text;
         if (SearchKeyWord != "")
         {
-            query += " where th_name like '%" + SearchKeyWord + "%'";
-            query += " or en_name like '%" + SearchKeyWord + "%'";
+            query += " and( lo.th_name like '%" + SearchKeyWord + "%'";
+            query += " or lo.en_name like '%" + SearchKeyWord + "%' )";
         }
+
+        System.Diagnostics.Debug.WriteLine(query); //console.log
+
 
 
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
@@ -46,7 +55,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         SqlDataAdapter sda = new SqlDataAdapter(query, con);
         DataTable dt = new DataTable();
 
-        //System.Diagnostics.Debug.WriteLine(sda); //console.log
+        System.Diagnostics.Debug.WriteLine(sda); //console.log
 
         sda.Fill(dt);
 
@@ -54,21 +63,28 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         ListViewPlace.DataBind();
 
+
     }
 
-    public void LoadHotel() {
+    public void LoadHotel()
+    {
 
         string query = "SELECT lo.id as id,lo.th_name lo_th_name,lo.en_name lo_en_name,pic.image img,p.en_name p_en_name,p.th_name p_th_name FROM location lo";
         query += " left join image_location pic on lo.id = pic.location_id and pic.id in (select min(id) from image_location Group by location_id)  ";
         query += " left join province p on lo.province_id = p.id ";
 
+        query += "where type_location_id = (select id from type_location where en_name = 'Hotel' )";
+
         /// keyword Search
         string SearchKeyWord = TextBoxHotel.Text;
         if (SearchKeyWord != "")
         {
-            query += " where th_name like '%" + SearchKeyWord + "%'";
-            query += " or en_name like '%" + SearchKeyWord + "%'";
+            query += " and ( lo.th_name like '%" + SearchKeyWord + "%'";
+            query += " or lo.en_name like '%" + SearchKeyWord + "%' )";
         }
+        System.Diagnostics.Debug.WriteLine(SearchKeyWord + 555); //console.log
+
+
 
 
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
@@ -83,6 +99,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         ListViewHotel.DataSource = dt;
 
         ListViewHotel.DataBind();
+
 
     }
 
@@ -111,7 +128,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             query += " where lo.id in (" + Ids + ")";
 
         }
-        else {
+        else
+        {
             query += " where lo.id in (0)";
         }
 
@@ -156,7 +174,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             query += " where lo.id in (" + Ids + ")";
 
         }
-        else {
+        else
+        {
             query += " where lo.id in (0)";
         }
 
@@ -189,10 +208,10 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         if (e.CommandName == "add_hotel")
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-            
-            Session["hotelSelected"] = (string)Session["hotelSelected"] +" " +e.CommandArgument.ToString();
-            
-            System.Diagnostics.Debug.WriteLine("add"+ (string)Session["hotelSelected"]);
+
+            Session["hotelSelected"] = (string)Session["hotelSelected"] + " " + e.CommandArgument.ToString();
+
+            System.Diagnostics.Debug.WriteLine("add" + (string)Session["hotelSelected"]);
             LoadSelectedHotel();
 
 
@@ -211,11 +230,11 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         if (e.CommandName == "add_place")
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showPModal();", true);
-            
-            Session["placeSelected"] = (string)Session["placeSelected"] +" " +e.CommandArgument.ToString();
-            
-            System.Diagnostics.Debug.WriteLine("add"+ (string)Session["placeSelected"]);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showPModal();", true);
+
+            Session["placeSelected"] = (string)Session["placeSelected"] + " " + e.CommandArgument.ToString();
+
+            System.Diagnostics.Debug.WriteLine("add" + (string)Session["placeSelected"]);
             LoadSelectedPlace();
 
 
@@ -234,7 +253,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             string IdsSession = (string)Session["hotelSelected"];
 
             StringBuilder Ids = new StringBuilder(IdsSession);
-            Ids.Replace(" "+removeVal,"");
+            Ids.Replace(" " + removeVal, "");
             IdsSession = Ids.ToString();
             Session["hotelSelected"] = IdsSession;
 
@@ -257,7 +276,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             string IdsSession = (string)Session["placeSelected"];
 
             StringBuilder Ids = new StringBuilder(IdsSession);
-            Ids.Replace(" "+removeVal,"");
+            Ids.Replace(" " + removeVal, "");
             IdsSession = Ids.ToString();
             Session["placeSelected"] = IdsSession;
 
@@ -305,7 +324,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         System.Diagnostics.Debug.WriteLine("Save");
 
-        SaveTour() ;
+        SaveTour();
         SaveHotelSelect();
         SavePalceSelect();
 
@@ -324,7 +343,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void SaveTour()
     {
 
-        
+
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
         using (SqlConnection ConObj = new SqlConnection(ConnectString))
         {
@@ -397,14 +416,13 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                     {
                         //System.Diagnostics.Debug.WriteLine(CreatedId);
                     }
-                  
+
                 }
                 ConObj.Close();
             }
 
         }
     }
-
 
     protected void SavePalceSelect()
     {
@@ -441,5 +459,37 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
     }
 
+    protected void TextBoxPalce_TextChanged(object sender, EventArgs e)
+    {
+        LoadPlace();
+    }
 
+
+
+    protected void ListViewPlace_ItemDataBound(object sender, ListViewItemEventArgs e)
+    {
+
+    }
+
+    protected void ListViewPlace_PagePropertiesChanged(object sender, EventArgs e)
+    {
+        LoadPlace();
+    }
+
+    protected void ListViewHotel_DataBound(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ListViewHotel_PagePropertiesChanged(object sender, EventArgs e)
+    {
+        LoadHotel();
+    }
+
+    protected void TextBoxHotel_TextChanged(object sender, EventArgs e)
+    {
+        LoadHotel();
+    }
 }
+
+    

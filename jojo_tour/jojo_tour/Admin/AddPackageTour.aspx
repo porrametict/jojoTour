@@ -176,16 +176,20 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="ModalPTitle">เพิ่มโรงเเรม</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title" id="ModalPTitle">เพิ่มที่ท่องเที่ยว</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h6 class="text-danger">ค้นหาเลยสิ !!</h6>
-                            <asp:TextBox ID="TextBoxPalce" CssClass="form-control" runat="server"></asp:TextBox>
 
-                            <asp:ListView ID="ListViewPlace" runat="server" OnItemCommand="ListViewPlace_ItemCommand">
+                            <asp:UpdatePanel ID="PlaceViewUpdate" runat="server">
+                                <ContentTemplate>
+                                      <h6 class="text-danger">ค้นหาเลยสิ !!</h6>
+                            <asp:TextBox ID="TextBoxPalce" CssClass="form-control" runat="server" OnTextChanged="TextBoxPalce_TextChanged" AutoPostBack="True"
+></asp:TextBox>
+
+                            <asp:ListView ID="ListViewPlace" runat="server" OnItemCommand="ListViewPlace_ItemCommand" OnItemDataBound="ListViewPlace_ItemDataBound" OnPagePropertiesChanged="ListViewPlace_PagePropertiesChanged" >
                                 <EmptyDataTemplate>
                                     <span>ไม่ข้อมูล.</span>
                                 </EmptyDataTemplate>
@@ -207,7 +211,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="row align-items-center h-100 justify-content-center">
-                                                        <asp:Button ID="ButtonAddPlace" CssClass="btn btn-danger" runat="server" CommandName="add_place" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="เพิ่ม" />
+                                                        <asp:Button ID="ButtonAddPlace" CssClass="btn btn-danger" runat="server" CommandName="add_place" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="เพิ่ม"  />
                                                     </div>
 
                                                 </div>
@@ -227,7 +231,7 @@
 
                                     </div>
                                     <div class="row justify-content-center mt-3">
-                                        <asp:DataPager ID="DataPagerPlace" runat="server">
+                                        <asp:DataPager ID="DataPagerPlace" runat="server"  PageSize="3" >
                                             <Fields>
                                                 <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" ButtonCssClass="btn btn-danger" />
                                                 <asp:NumericPagerField />
@@ -237,11 +241,17 @@
                                     </div>
                                 </LayoutTemplate>
                             </asp:ListView>
+                                </ContentTemplate>
+
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ListViewPlace" EventName="PagePropertiesChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                          
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Close</button>
                         </div>
                     </div>
                 </div>
@@ -253,15 +263,17 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="ModalTitle">เพิ่มโรงเเรม</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
+                            <asp:UpdatePanel ID="HotelViewUpdate" runat="server">
+                                <ContentTemplate>
                             <h6 class="text-danger">ค้นหาเลยสิ !!</h6>
-                            <asp:TextBox ID="TextBoxHotel" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="TextBoxHotel" CssClass="form-control" runat="server" OnTextChanged="TextBoxHotel_TextChanged" AutoPostBack="True"></asp:TextBox>
 
-                            <asp:ListView ID="ListViewHotel" runat="server" OnItemCommand="ListViewHotel_ItemCommand">
+                            <asp:ListView ID="ListViewHotel" runat="server" OnItemCommand="ListViewHotel_ItemCommand" OnDataBound="ListViewHotel_DataBound" OnPagePropertiesChanged="ListViewHotel_PagePropertiesChanged">
                                 <EmptyDataTemplate>
                                     <span>ไม่ข้อมูล.</span>
                                 </EmptyDataTemplate>
@@ -303,7 +315,7 @@
 
                                     </div>
                                     <div class="row justify-content-center mt-3">
-                                        <asp:DataPager ID="DataPagerHotel" runat="server">
+                                        <asp:DataPager ID="DataPagerHotel" UseSubmitBehavior="false" runat="server" PageSize="3" >
                                             <Fields>
                                                 <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" ButtonCssClass="btn btn-danger" />
                                                 <asp:NumericPagerField />
@@ -313,11 +325,17 @@
                                     </div>
                                 </LayoutTemplate>
                             </asp:ListView>
+                                </ContentTemplate>
+
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ListViewHotel" EventName="PagePropertiesChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                          
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Close</button>
                         </div>
                     </div>
                 </div>
