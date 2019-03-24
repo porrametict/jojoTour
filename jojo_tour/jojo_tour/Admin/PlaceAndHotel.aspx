@@ -58,7 +58,7 @@
                 </ItemTemplate>
                 <LayoutTemplate>
                     <div id="itemPlaceholderContainer" runat="server">
-                        <div class="row m-3">
+                        <div class="row m-3 ">
                             <span runat="server" id="itemPlaceholder" />
                         </div>
 

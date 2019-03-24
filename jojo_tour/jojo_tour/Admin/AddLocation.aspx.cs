@@ -23,7 +23,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         using (SqlConnection ConObj = new SqlConnection(ConnectString))
         {
             ConObj.Open();
-            String SQL = "INSERT INTO location(en_name,th_name,en_detail,th_detail,provice_id,type_location_id) output INSERTED.ID VALUES (@en_name,@th_name,@en_detail,@th_detail,@provice_id,@type_location_id)";
+            String SQL = "INSERT INTO location(en_name,th_name,en_detail,th_detail,province_id,type_location_id) output INSERTED.ID VALUES (@en_name,@th_name,@en_detail,@th_detail,@province_id,@type_location_id)";
             using (SqlCommand CmObj = new SqlCommand())
             {
                 CmObj.CommandText = SQL;
@@ -32,7 +32,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                 CmObj.Parameters.AddWithValue("@th_name", TextBoxTHname.Text);
                 CmObj.Parameters.AddWithValue("@en_detail", TextBoxENdetail.Text);
                 CmObj.Parameters.AddWithValue("@th_detail", TextBoxTHdetail.Text);
-                CmObj.Parameters.AddWithValue("@provice_id", DropDownListProvice.SelectedValue);
+                CmObj.Parameters.AddWithValue("@province_id", DropDownListProvice.SelectedValue);
                 CmObj.Parameters.AddWithValue("@type_location_id", DropDownListType.SelectedValue);
 
                 CreatedId = (int)CmObj.ExecuteScalar();
@@ -104,6 +104,9 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             
 
         }
+
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
+
     }
 
 }

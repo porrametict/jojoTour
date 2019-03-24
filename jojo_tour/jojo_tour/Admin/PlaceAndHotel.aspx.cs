@@ -15,7 +15,7 @@ public partial class About : Page
     {
         string query = "SELECT lo.id as id,lo.th_name lo_th_name,lo.en_name lo_en_name,pic.image img,p.en_name p_en_name,p.th_name p_th_name FROM location lo";
          query += " left join image_location pic on lo.id = pic.location_id and pic.id in (select min(id) from image_location Group by location_id)  ";
-         query += " left join province p on lo.provice_id = p.id ";
+         query += " left join province p on lo.province_id = p.id ";
 
        /// keyword Search
         string SearchKeyWord = TextBoxSearch.Text;
@@ -86,7 +86,7 @@ public partial class About : Page
         }
         if (ProvinceFilter.Length != 0)
         {
-            query += prefixProvince + " provice_id in (" + ProvinceFilter + ")";
+            query += prefixProvince + " province_id in (" + ProvinceFilter + ")";
         }
 
 

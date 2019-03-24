@@ -43,3 +43,7 @@ input[type="checkbox"] + label {
 .card img{
    /*max-height: 12rem !important*/
 }
+
+.txt-btn {
+    cursor:pointer !important;
+}
