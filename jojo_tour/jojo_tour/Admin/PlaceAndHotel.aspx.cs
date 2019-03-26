@@ -21,8 +21,8 @@ public partial class About : Page
         string SearchKeyWord = TextBoxSearch.Text;
         if (SearchKeyWord != "")
         {
-            query += " where th_name like '%" + SearchKeyWord + "%'";
-            query += " or en_name like '%" + SearchKeyWord + "%'";
+            query += " where ( lo.th_name like '%" + SearchKeyWord + "%'";
+            query += " or lo.en_name like '%" + SearchKeyWord + "%' )";
         }
 
         /// type Filter

@@ -88,7 +88,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                             CmObj2.Parameters.AddWithValue("@image", "/DataStorage/LocationImg/" + CreatedId + "/" + fname);
                             if (CmObj2.ExecuteNonQuery() > 0)
                             {
-                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกสำเร็จ')", true);
+                                //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกสำเร็จ')", true);
                             }
                             else
                             {
