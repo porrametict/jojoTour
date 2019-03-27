@@ -8,11 +8,12 @@ using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class About : Page
+public partial class PlaceAndHotel : Page
 {
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
         string query = "SELECT lo.id as id,lo.th_name lo_th_name,lo.en_name lo_en_name,pic.image img,p.en_name p_en_name,p.th_name p_th_name FROM location lo";
          query += " left join image_location pic on lo.id = pic.location_id and pic.id in (select min(id) from image_location Group by location_id)  ";
          query += " left join province p on lo.province_id = p.id ";
@@ -111,6 +112,14 @@ public partial class About : Page
 
     protected void ListView1_ItemCommand(object sender, ListViewCommandEventArgs e)
     {
+        if (e.CommandName == "view_btn") {
+            System.Diagnostics.Debug.WriteLine("if"); //console.log
+
+            Response.Redirect("LocationView.aspx?id=" + e.CommandArgument);
+        }
+        Response.Redirect("LocationViewDetail.aspx?id=" + e.CommandArgument);
+        System.Diagnostics.Debug.WriteLine("in"); //console.log
+
 
     }
 }

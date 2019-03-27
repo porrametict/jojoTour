@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Place&Hotel" Language="C#" MasterPageFile="~/SiteAdmin.Master" AutoEventWireup="true" CodeFile="PlaceAndHotel.aspx.cs" Inherits="About" %>
+﻿<%@ Page Title="Place&Hotel" Language="C#" MasterPageFile="~/SiteAdmin.Master" AutoEventWireup="true" CodeFile="PlaceAndHotel.aspx.cs" Inherits="PlaceAndHotel" EnableEventValidation="false" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h3><%: Title %></h3>
@@ -49,7 +49,13 @@
                                 <br />
                                 <asp:Label ID="Label2" runat="server" Text='<%# Eval("p_th_name") %>' CssClass="card-title text-secondary" />
                                 <br />
-                                <asp:Button ID="ViewButton" CssClass="btn btn-success btn-block" runat="server" Text="ดูข้อมูล" CommandName="view_btn" CommandArgument='<%# Eval("id") %>' />
+                                <asp:LinkButton runat="server"
+                                    ID="ViewButton"
+                                    Text="ดูข้อมูล"
+                                    CssClass="btn btn-success btn-block"
+                                    CommandName="view_btn"
+                                    CommandArgument='<%# Eval("id") %>' />
+                                <%--<asp:Button ID="ViewButton" CssClass="btn btn-success btn-block" runat="server" Text="ดูข้อมูล" CommandName="view_btn" CommandArgument='<%# Eval("id") %>' />--%>
                             </div>
                         </div>
                     </div>
