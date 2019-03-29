@@ -42,9 +42,8 @@
                     <div>
                               <asp:ListView ID="ListViewPlaceSelected" runat="server" OnItemCommand="ListViewPlaceSelected_ItemCommand">
                             <EmptyDataTemplate>
-                                <div class="row mt-1 mx-2">
+                                <div class="row  m-2">
                                     <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
-
                                 </div>
                             </EmptyDataTemplate>
 

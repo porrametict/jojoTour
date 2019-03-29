@@ -37,7 +37,9 @@
         <div class="col border">
             <asp:ListView ID="ListView1" runat="server" DataKeyNames="id" OnItemCommand="ListView1_ItemCommand">
                 <EmptyDataTemplate>
-                    <span>ไม่ข้อมูล.</span>
+                     <div class="row  m-2">
+                                <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
+                         </div>
                 </EmptyDataTemplate>
 
                 <ItemTemplate>

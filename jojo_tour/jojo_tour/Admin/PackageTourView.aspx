@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Title="Location Detail" AutoEventWireup="true" MasterPageFile="~/SiteAdmin.master" CodeFile="LocationView.aspx.cs" Inherits="Customer_PackageTour" %>
+﻿<%@ Page Language="C#" Title="PackageTour Detail" AutoEventWireup="true" MasterPageFile="~/SiteAdmin.master" CodeFile="PackageTourView.aspx.cs" Inherits="Customer_PackageTour" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h3><%: Title %></h3>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <!--รูป-->
-                <div class="container my-2">
+                <div class="container my-2 border" >
                     <div class="row ">
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="width:100%; height: 500px; overflow:hidden">
                             <asp:DataList ID="DataListImg" runat="server" DataKeyField="id" DataSourceID="SqlDataSourceIMGLocation" CssClass="carousel-inner h-100" RepeatLayout="Flow">
