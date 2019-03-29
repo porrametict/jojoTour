@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Title="Location Detail" AutoEventWireup="true" MasterPageFile="~/SiteAdmin.master" CodeFile="LocationView - Copy.aspx.cs" Inherits="Customer_PackageTour" %>
+﻿<%@ Page Language="C#" Title="Location Detail" AutoEventWireup="true" MasterPageFile="~/SiteAdmin.master" CodeFile="LocationView.aspx.cs" Inherits="Customer_PackageTour" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h3><%: Title %></h3>
