@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Title="Package Tour" AutoEventWireup="true" MasterPageFile="~/Site.master" CodeFile="PackageTour.aspx.cs" Inherits="Customer_PackageTour" %>
+﻿<%@ Page Language="C#" Title="Package Tour" AutoEventWireup="true" MasterPageFile="~/Site.master" CodeFile="PackageTour.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h3><%: Title %></h3>
@@ -6,28 +6,60 @@
     <div class="row">
         <div class="col  col-lg">
             <div class="form-inline d-flex justify-content-end">
-                <asp:TextBox ID="TextBoxSearch" runat="server" CssClass="form-control mx-2"></asp:TextBox>
-                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-danger" Text="ค้นหา" />
+                <asp:TextBox ID="TextBoxSearch" runat="server" CssClass="form-control mx-2" OnTextChanged="TextBoxSearch_TextChanged"></asp:TextBox>
+                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-danger" Text="ค้นหา" OnClick="btnSearch_Click" />
             </div>
-
         </div>
     </div>
+
     <div class="row my-2 mx-1">
+
+          <div class="col-12 col-lg-2 border text-center">
+            <br />
+            <h4>ตัวกรอง</h4>
+            <hr />
+            <div class="text-left">
+                <h5>ประเภท</h5>
+                <asp:CheckBoxList ID="CheckBoxListType" AutoPostBack="true" runat="server" DataSourceID="SqlDataSourceType" DataTextField="th_name" DataValueField="id" RepeatLayout="Flow" OnSelectedIndexChanged="CheckBoxListType_SelectedIndexChanged"></asp:CheckBoxList>
+                <asp:SqlDataSource ID="SqlDataSourceType" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT * FROM [type_location]"></asp:SqlDataSource>
+            </div>
+            <hr />
+            <div class="text-left">
+                <h5>จังหวัด</h5>
+                <asp:CheckBoxList ID="CheckBoxListProvince" AutoPostBack="true" runat="server" DataSourceID="SqlDataSourceProvince" DataTextField="th_name" DataValueField="id" RepeatLayout="Flow" OnSelectedIndexChanged="CheckBoxListProvince_SelectedIndexChanged"></asp:CheckBoxList>
+                <br />
+                <br />
+                <asp:SqlDataSource ID="SqlDataSourceProvince" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT * FROM [province]" OnSelecting="SqlDataSourceProvince_Selecting"></asp:SqlDataSource>
+            </div>
+        </div>
+
+
         <div class="col border">
-            <asp:ListView ID="ListView1" runat="server" DataKeyNames="id" OnItemCommand="ListView1_ItemCommand">
+            <asp:UpdatePanel ID="PlaceViewUpdate" runat="server">
+                <ContentTemplate>
+            <asp:ListView ID="ListView1" runat="server" DataKeyNames="id" OnItemCommand="ListView1_ItemCommand" OnPagePropertiesChanged="ListView1_PagePropertiesChanged">
                 <EmptyDataTemplate>
-                    <span>ไม่ข้อมูล.</span>
+                    <div class="row  m-2">
+                        <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
+                    </div>
                 </EmptyDataTemplate>
+
                 <ItemTemplate>
                     <div class="col col-md-4 my-2">
-                        <div class="card" >
+                        <div class="card">
                             <img id="Image1" src='<%# Eval("img") %>' class="card-img-top img-fluid" onerror="this.onerror=null;this.src='/DataStorage/LocationImg/No_Image_Available.jpg'" />
                             <div class="card-body">
-                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("lo_th_name") %>' CssClass="card-title h5"  />
+                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("t_th_name") %>' CssClass="card-title h5" />
                                 <br />
-                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("p_th_name") %>' CssClass="card-title text-secondary" />
+                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("id") %>' CssClass="card-title text-secondary" />
                                 <br />
-                                <asp:Button ID="ViewButton" CssClass="btn btn-success btn-block" runat="server" Text="ดูข้อมูล" CommandName="view_btn" CommandArgument='<%# Eval("id") %>' />
+                                <asp:LinkButton runat="server"
+                                    ID="ViewButton"
+                                    Text="ดูข้อมูล"
+                                    CssClass="btn btn-success btn-block"
+                                    CommandName="view_btn"
+                                    CommandArgument='<%# Eval("id") %>' />
+
                             </div>
                         </div>
                     </div>
@@ -50,9 +82,15 @@
                             </Fields>
                         </asp:DataPager>
                     </div>
+                    <br />
                 </LayoutTemplate>
             </asp:ListView>
-            <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT location.id, location.en_name, location.th_name, province.th_name AS p_th_name, province.en_name AS p_en_name, type_location.th_name AS t_th_name, type_location.en_name AS t_en_name FROM location INNER JOIN province ON location.provice_id = province.id INNER JOIN type_location ON location.type_location_id = type_location.id"></asp:SqlDataSource>
+                </ContentTemplate>
+
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="ListView1" EventName="PagePropertiesChanged" />
+                </Triggers>
+            </asp:UpdatePanel>
         </div>
     </div>
 
