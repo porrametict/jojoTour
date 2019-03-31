@@ -490,6 +490,16 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
         LoadHotel();
     }
+
+    protected void ListViewPlaceSelected_PagePropertiesChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ListViewHotelSelected_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }
 
     

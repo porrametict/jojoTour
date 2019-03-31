@@ -40,7 +40,10 @@
                         <h6 class="text-danger txt-btn"  data-toggle="modal" data-target="#PlaceDialog">เพิ่ม</h6>
                     </div>
                     <div>
-                              <asp:ListView ID="ListViewPlaceSelected" runat="server" OnItemCommand="ListViewPlaceSelected_ItemCommand">
+                         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                       
+                             <asp:ListView ID="ListViewPlaceSelected" runat="server" OnItemCommand="ListViewPlaceSelected_ItemCommand" OnPagePropertiesChanged="ListViewPlaceSelected_PagePropertiesChanged">
                             <EmptyDataTemplate>
                                 <div class="row  m-2">
                                     <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
@@ -79,7 +82,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </ItemTemplate>
                             <LayoutTemplate>
                                 <div id="itemPlaceholderContainer" runat="server">
@@ -90,8 +92,14 @@
                                 </div>
                             </LayoutTemplate>
                         </asp:ListView>
+                                </ContentTemplate>
+                             <Triggers>
+                                 <asp:AsyncPostBackTrigger ControlID="ListViewPlaceSelected" EventName="PagePropertiesChanged" />
+                             </Triggers>
+                         </asp:UpdatePanel>
                     </div>
                 </div>
+
 
 
                 <!--ที่พัก-->
@@ -101,7 +109,9 @@
                         <h6 class="text-danger txt-btn" data-toggle="modal" data-target="#HotelDialog">เพิ่ม</h6>
                     </div>
                     <div>
-                          <asp:ListView ID="ListViewHotelSelected" runat="server" OnItemCommand="ListViewHotelSelected_ItemCommand">
+                           <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                <ContentTemplate>
+                          <asp:ListView ID="ListViewHotelSelected" runat="server" OnItemCommand="ListViewHotelSelected_ItemCommand" OnSelectedIndexChanged="ListViewHotelSelected_SelectedIndexChanged">
                             <EmptyDataTemplate>
                                 <div class="row mt-1 mx-2">
                                     <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
@@ -152,6 +162,12 @@
                                 </div>
                             </LayoutTemplate>
                         </asp:ListView>
+                                </ContentTemplate>
+
+                               <Triggers>
+                                   <asp:AsyncPostBackTrigger ControlID="ListViewHotelSelected" EventName="PagePropertiesChanged" />
+                               </Triggers>
+                           </asp:UpdatePanel>
 
                     </div>
 
@@ -176,7 +192,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="ModalPTitle">เพิ่มที่ท่องเที่ยว</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -262,7 +278,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="ModalTitle">เพิ่มโรงเเรม</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -334,7 +350,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" runat="server" AutoPostBack="True">Close</button>
                         </div>
                     </div>
                 </div>

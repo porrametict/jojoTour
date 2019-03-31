@@ -5,8 +5,9 @@
     <hr />
 
     <div class="row">
-        <div class="col px-5 py-2 bg-light">
-            <label class="h5 ">รายละเอียดผู้จอง</label>
+        <div class="col px-5 py-2 border m-1 bg-light order-1">
+            <label class="h5 mt-3">รายละเอียดผู้จอง</label>
+            <hr />
             <div class="form-group ">
                 <label >ชื่อผู้จอง*</label>
                 <asp:TextBox ID="TextBoxFname" CssClass="form-control " runat="server" ></asp:TextBox>
@@ -35,10 +36,122 @@
                 <asp:TextBox ID="TextBoxEmail" CssClass="form-control " runat="server"></asp:TextBox>
                 <asp:Label ID="errorEmail" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger"  Visible="false">
                     <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
+            </div>
+            
+            <div class="row justify-content-end mx-1 form-group">
+                <asp:Button ID="ButtonSave" runat="server" Text="บันทึกการจอง" CssClass="btn btn-success btn-block" OnClick="ButtonSave_Click" />
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-8 border px-5 py-2 m-1 bg-light order-0">
+             <label class="h5 mt-3">รายละเอียดทัวร์</label>
+            <hr />
+
+            <div >
+                <div class="row">
+                    <asp:HiddenField ID="HiddenFieldTypeTour"  runat="server" />
+                    <div class="col">
+                        <asp:Button ID="ButtonSelectPT" runat="server" Text="เลือกเเพ็คเกจทัวร์" OnClientClick="ptSetModal();return false;" CssClass="btn btn-success btn-block" />
+                    </div>
+                    <div class="col">
+                        <asp:Button ID="ButtonSelectCT" runat="server" Text="จัดทัวร์เอง" OnClientClick="ctSet()" CssClass="btn btn-primary btn-block" />
+                    </div>
+                </div>
+            </div>
+            <div id="pt" runat="server" >
+
+                <%--เลือกเเพ็คเกจทัวร์ Modal--%>
+                <div class="modal fade" id="PTDialog" tabindex="-1" role="dialog" aria-labelledby="PTDialogTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="PTDialogTitle">เลือกเเพ็คเกจทัวร์</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <h6 class="text-danger">ค้นหาเลยสิ !!</h6>
+                                        <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server" OnTextChanged="TextBoxPalce_TextChanged" AutoPostBack="True"></asp:TextBox>
+
+                                        <asp:ListView ID="ListView1" runat="server" OnItemCommand="ListViewPlace_ItemCommand" OnItemDataBound="ListViewPlace_ItemDataBound" OnPagePropertiesChanged="ListViewPlace_PagePropertiesChanged">
+                                            <EmptyDataTemplate>
+                                                <span>ไม่ข้อมูล.</span>
+                                            </EmptyDataTemplate>
+
+                                            <ItemTemplate>
+                                                <div class="col-12  my-2">
+                                                    <div class="card">
+                                                        <div class="row wx-100">
+                                                            <div class="col">
+                                                                <img id="Image1" src='<%# Eval("img") %>' class="img-fluid " onerror="this.onerror=null;this.src='/DataStorage/LocationImg/No_Image_Available.jpg'" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="card-body">
+                                                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("lo_th_name") %>' CssClass="card-title h5" />
+                                                                    <br />
+                                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("p_th_name") %>' CssClass="card-title text-secondary" />
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row align-items-center h-100 justify-content-center">
+                                                                    <asp:Button ID="ButtonAddPlace" CssClass="btn btn-danger" runat="server" CommandName="add_place" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="เพิ่ม" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+
+                                            </ItemTemplate>
+                                            <LayoutTemplate>
+                                                <div id="itemPlaceholderContainer" runat="server">
+                                                    <div class="row m-3">
+                                                        <span runat="server" id="itemPlaceholder" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="row justify-content-center mt-3">
+                                                    <asp:DataPager ID="DataPagerPlace" runat="server" PageSize="3">
+                                                        <Fields>
+                                                            <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" ButtonCssClass="btn btn-danger" />
+                                                            <asp:NumericPagerField />
+                                                            <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" ButtonCssClass="btn btn-danger" />
+                                                        </Fields>
+                                                    </asp:DataPager>
+                                                </div>
+                                            </LayoutTemplate>
+                                        </asp:ListView>
+                                    </ContentTemplate>
+
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="ListViewPlace" EventName="PagePropertiesChanged" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
 
             </div>
 
-            <!--Add Location-->
+            <div id="ct"  runat="server" style="visibility: hidden">
+                  <!--Add Location-->
             <div class="row my-2">
                 <!--ที่ท่องเที่ยว-->
                 <div class="col-12 col-md-6">
@@ -166,17 +279,7 @@
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-12 col-md my-2">
-                    <label>ราคา</label>
-                <asp:TextBox ID="TextBoxPrice" runat="server" CssClass="form-control " TextMode="Number" ></asp:TextBox>
-                </div>
-    
-            </div>
-
-
-      
-
+               
             <!-- Modal Place -->
             <div class="modal fade" id="PlaceDialog" tabindex="-1" role="dialog" aria-labelledby="ModalPTitle" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -346,13 +449,18 @@
                     </div>
                 </div>
             </div>
-            
 
-            <div class="row justify-content-end mr-1">
-                <asp:Button ID="ButtonSave" runat="server" Text="บันทึก" CssClass="btn btn-success" OnClick="ButtonSave_Click" />
             </div>
 
-        </div>
+            <div class="row">
+                <div class="col-12 col-md my-2">
+                    <label>ราคา</label>
+                    <asp:TextBox ID="TextBoxPrice" runat="server" CssClass="form-control " TextMode="Number"></asp:TextBox>
+                </div>
+
+            </div>
+
+            </div>
 
     </div>
     <!-- JS -->
@@ -362,6 +470,16 @@
         }
         function showPModal() {
             $('#PlaceDialog').modal('show');
+        }
+        function ptSetModal() {
+            let hf = document.getElementById('<%= HiddenFieldTypeTour.ClientID %>').value = '1';
+            $('#PTDialog').modal('show');
+
+            document.getElementById('<%= pt.ClientID %>')
+            return ;
+        }
+        function ctSet() {
+            let hf = document.getElementById('<%= HiddenFieldTypeTour.ClientID %>').value = '2';           
         }
     </script>
 

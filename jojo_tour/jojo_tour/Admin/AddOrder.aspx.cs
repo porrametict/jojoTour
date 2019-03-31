@@ -15,6 +15,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     int CreatedId = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        System.Diagnostics.Debug.WriteLine( "ee+"+HiddenFieldTypeTour.Value.ToString());
         LoadHotel();
         LoadPlace();
         if (!IsPostBack)
