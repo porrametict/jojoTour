@@ -17,14 +17,9 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
         LoadHotel();
         LoadPlace();
-        if (!IsPostBack)
-        {
-            LoadSelectedHotel();
-            LoadSelectedPlace();
-            LoadHotel();
-            LoadPlace();
+        LoadSelectedHotel();
+        LoadSelectedPlace();
 
-        }
 
 
     }

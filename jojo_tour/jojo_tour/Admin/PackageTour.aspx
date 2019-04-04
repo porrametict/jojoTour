@@ -66,8 +66,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </ItemTemplate>
                 <LayoutTemplate>
                     <div id="itemPlaceholderContainer" runat="server">

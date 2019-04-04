@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 
 public partial class Customer_PackageTour : System.Web.UI.Page
 {
@@ -16,17 +15,130 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        System.Diagnostics.Debug.WriteLine( "ee+"+HiddenFieldTypeTour.Value.ToString());
-        LoadHotel();
-        LoadPlace();
+        //System.Diagnostics.Debug.WriteLine("ee+" + HiddenFieldTypeTour.Value.ToString());
         if (!IsPostBack)
         {
-            LoadSelectedHotel();
-            LoadSelectedPlace();
-            LoadHotel();
-            LoadPlace();
+            BindListView();
+        }
+        LoadHotel();
+        LoadPlace();
+        LoadSelectedHotel();
+        LoadSelectedPlace();
+
+
+    }
+    protected void BindListView()
+    {
+        string query = "select  tl.tour_code id ,tl.location_id location_id,t.th_name t_th_name,t.en_name t_en_name, l.province_id province, l.type_location_id type_location ,ml.image img  from tour_location tl ";
+        query += " inner join location l on l.id = tl.location_id";
+        query += " inner join tour t on t.tour_code = tl.tour_code ";
+        query += " left join image_location ml on ml.location_id = tl.location_id  ";
+        query += " where t.type_tour_id = 1 ";
+
+        /// keyword Search
+        string SearchKeyWord = TextBox1.Text;
+        if (SearchKeyWord != "")
+        {
+            query += " and ( t.th_name like '%" + SearchKeyWord + "%'";
+            query += " or t.en_name like '%" + SearchKeyWord + "%' )";
+        }
+
+
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        SqlConnection con = new SqlConnection(ConnectString);
+        SqlDataAdapter sda = new SqlDataAdapter(query, con);
+        DataTable dt = new DataTable();
+
+        sda.Fill(dt);
+
+        System.Diagnostics.Debug.WriteLine("start" + dt.Rows.Count);
+        string Ids = "";
+
+        for (int i = dt.Rows.Count - 1; i >= 0; i--)
+        {
+            DataRow dr = dt.Rows[i];
+            string catid = dr["id"].ToString();
+            if (Ids.Contains(catid))
+            {
+                dr.Delete();
+            }
+            else
+            {
+                Ids += catid;
+            }
+        }
+        dt.AcceptChanges();
+        System.Diagnostics.Debug.WriteLine("end");
+
+        ListView1.DataSource = dt;
+        ListView1.DataBind();
+    }
+
+
+    protected void ButtonSave_Click(object sender, EventArgs e)
+
+    {
+
+
+    }
+
+    protected void SaveTour()
+    {
+
+
+    }
+
+
+
+
+    protected void TextBox1_TextChanged(object sender, EventArgs e)
+    {
+        BindListView();
+    }
+
+    protected void ListView1_PagePropertiesChanged(object sender, EventArgs e)
+    {
+        BindListView();
+    }
+
+    protected void ListView1_ItemCommand(object sender, ListViewCommandEventArgs e)
+    {
+        //System.Diagnostics.Debug.WriteLine("select "+Session["PKTourSelected"].ToString());
+        if (e.CommandName == "select_pkTour")
+        {
+            Session["PKTourSelected"] =  e.CommandArgument.ToString();
+
+            LoadPKSElectTour();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "ClosePop", "closePKModal();", true);
+
+
 
         }
+    }
+
+    private void LoadPKSElectTour()
+    {
+        string query = "select t.tour_code id , t.th_name t_th_name ,t.price t_price from tour t where t.tour_code = "+Session["PKTourSelected"].ToString();
+       
+
+        string StrConn = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        SqlConnection con = new SqlConnection(StrConn);
+        SqlDataAdapter sda = new SqlDataAdapter(query, con);
+        DataTable dt = new DataTable();
+
+        //System.Diagnostics.Debug.WriteLine(sda); //console.log
+
+        sda.Fill(dt);
+        DataList1.DataSource = dt;
+        DataList1.DataBind();
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "ShoeP", "PKShowShow();", true);
+
+
+        //Page.ClientScript.RegisterStartupScript(this.GetType(), "paramFN1", "PKShowShow('" +0 + "');", true);
+
+
+        System.Diagnostics.Debug.WriteLine("END JF");
+
 
 
     }
@@ -201,51 +313,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
     }
 
-    protected void ListViewHotel_ItemCommand(object sender, ListViewCommandEventArgs e)
-    {
-
-
-
-
-        if (e.CommandName == "add_hotel")
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-
-            Session["hotelSelected"] = (string)Session["hotelSelected"] + " " + e.CommandArgument.ToString();
-
-            System.Diagnostics.Debug.WriteLine("add" + (string)Session["hotelSelected"]);
-            LoadSelectedHotel();
-
-
-
-        }
-
-
-
-    }
-
-    protected void ListViewPlace_ItemCommand(object sender, ListViewCommandEventArgs e)
-    {
-
-
-
-
-        if (e.CommandName == "add_place")
-        {
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showPModal();", true);
-
-            Session["placeSelected"] = (string)Session["placeSelected"] + " " + e.CommandArgument.ToString();
-
-            System.Diagnostics.Debug.WriteLine("add" + (string)Session["placeSelected"]);
-            LoadSelectedPlace();
-
-
-
-        }
-
-
-
-    }
 
     protected void ListViewHotelSelected_ItemCommand(object sender, ListViewCommandEventArgs e)
     {
@@ -292,195 +359,59 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
     }
 
-    protected void ButtonSave_Click(object sender, EventArgs e)
-
+    protected void ListViewPlace_ItemCommand(object sender, ListViewCommandEventArgs e)
     {
-        //string th_name = TextBoxTHname.Text;
-        //string en_name = TextBoxENname.Text;
-
-        //errorEnName.Visible = false;
-        //errorThName.Visible = false;
-
-
-        //if (String.IsNullOrEmpty(en_name) || String.IsNullOrEmpty(th_name))
-        //{
-
-
-        //    if (String.IsNullOrEmpty(en_name))
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("EN");
-        //        errorEnName.Visible = true;
-
-        //    }
-        //    if (String.IsNullOrEmpty(th_name))
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("EN");
-        //        errorThName.Visible = true;
-        //    }
-
-        //    return;
-
-
-
-        //}
-
-        //System.Diagnostics.Debug.WriteLine("Save");
-
-        //SaveTour();
-        //SaveHotelSelect();
-        //SavePalceSelect();
-
-        //System.Diagnostics.Debug.WriteLine("Saved");
-
-        ////Session.Clear();
-
-        //LoadSelectedHotel();
-        //LoadSelectedPlace();
-
-        //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
-
-
-    }
-
-    protected void SaveTour()
-    {
-
-
-        //string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
-        //using (SqlConnection ConObj = new SqlConnection(ConnectString))
-        //{
-        //    ConObj.Open();
-        //    String SQL = "INSERT INTO tour(en_name,th_name,en_detail,th_detail,price,type_tour_id) output INSERTED.tour_code VALUES (@en_name,@th_name,@en_detail,@th_detail,@price,@type_tour_id)";
-        //    using (SqlCommand CmObj = new SqlCommand())
-        //    {
-        //        CmObj.CommandText = SQL;
-        //        CmObj.Connection = ConObj;
-        //        CmObj.Parameters.AddWithValue("@en_name", TextBoxENname.Text);
-        //        CmObj.Parameters.AddWithValue("@th_name", TextBoxTHname.Text);
-        //        CmObj.Parameters.AddWithValue("@en_detail", TextBoxENdetail.Text);
-        //        CmObj.Parameters.AddWithValue("@th_detail", TextBoxTHdetail.Text);
-        //        CmObj.Parameters.AddWithValue("@price", TextBoxPrice.Text);
-        //        CmObj.Parameters.AddWithValue("@type_tour_id", "1");
-
-        //        CreatedId = (int)CmObj.ExecuteScalar();
-
-        //        if (CreatedId != 0)
-        //        {
-
-        //        }
-        //        else
-        //        {
-
-        //        }
-
-        //        //if (ConObj.State == System.Data.ConnectionState.Open)
-        //        //    ConObj.Close();
-
-
-        //        //if (CmObj.ExecuteNonQuery() > 0)
-        //        //{
-        //        //    //System.Diagnostics.Debug.WriteLine(CreatedId);
-
-        //        //}
-        //        //else
-        //        //{
-
-        //        //}
-        //    }
-        //    ConObj.Close();
-        //}
-    }
-
-    protected void SaveHotelSelect()
-    {
-        foreach (ListViewDataItem item in ListViewHotelSelected.Items)
+        if (e.CommandName == "add_place")
         {
-            HiddenField HotelPK = (HiddenField)item.FindControl("HiddenFieldHotelId");
-            string Hpk = HotelPK.Value;
-            TextBox dateOfTour = (TextBox)item.FindControl("TextBoxDate");
-            string DOT = dateOfTour.Text;
-            System.Diagnostics.Debug.WriteLine("HPK = " + Hpk + " DOT = " + DOT);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showPModal();", true);
 
-            string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
-            using (SqlConnection ConObj = new SqlConnection(ConnectString))
-            {
-                ConObj.Open();
-                String SQL = "INSERT INTO tour_location(tour_code,location_id,date_of_tour) VALUES (@tour_code,@location_id,@date_of_tour)";
-                using (SqlCommand CmObj = new SqlCommand())
-                {
-                    CmObj.CommandText = SQL;
-                    CmObj.Connection = ConObj;
-                    CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
-                    CmObj.Parameters.AddWithValue("@location_id", Hpk);
-                    CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
+            Session["placeSelected"] = (string)Session["placeSelected"] + " " + e.CommandArgument.ToString();
 
-                    if (CmObj.ExecuteNonQuery() > 0)
-                    {
-                        //System.Diagnostics.Debug.WriteLine(CreatedId);
-                    }
+            System.Diagnostics.Debug.WriteLine("add" + (string)Session["placeSelected"]);
+            LoadSelectedPlace();
 
-                }
-                ConObj.Close();
-            }
+
 
         }
+
     }
 
-    protected void SavePalceSelect()
+
+    protected void ListViewHotel_ItemCommand(object sender, ListViewCommandEventArgs e)
     {
-        foreach (ListViewDataItem item in ListViewPlaceSelected.Items)
+
+        if (e.CommandName == "add_hotel")
         {
-            HiddenField PlacePK = (HiddenField)item.FindControl("HiddenFieldPlaceId");
-            string Ppk = PlacePK.Value;
-            TextBox dateOfTour = (TextBox)item.FindControl("TextBoxDate");
-            string DOT = dateOfTour.Text;
-            System.Diagnostics.Debug.WriteLine("PPK = " + Ppk + " DOT = " + DOT);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
 
-            string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
-            using (SqlConnection ConObj = new SqlConnection(ConnectString))
-            {
-                ConObj.Open();
-                String SQL = "INSERT INTO tour_location(tour_code,location_id,date_of_tour) VALUES (@tour_code,@location_id,@date_of_tour)";
-                using (SqlCommand CmObj = new SqlCommand())
-                {
-                    CmObj.CommandText = SQL;
-                    CmObj.Connection = ConObj;
-                    CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
-                    CmObj.Parameters.AddWithValue("@location_id", Ppk);
-                    CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
+            Session["hotelSelected"] = (string)Session["hotelSelected"] + " " + e.CommandArgument.ToString();
 
-                    if (CmObj.ExecuteNonQuery() > 0)
-                    {
-                        //System.Diagnostics.Debug.WriteLine(CreatedId);
-                    }
+            System.Diagnostics.Debug.WriteLine("add" + (string)Session["hotelSelected"]);
+            LoadSelectedHotel();
 
-                }
-                ConObj.Close();
-            }
+
 
         }
+
     }
+
+
 
     protected void TextBoxPalce_TextChanged(object sender, EventArgs e)
     {
         LoadPlace();
     }
 
-
-
-    protected void ListViewPlace_ItemDataBound(object sender, ListViewItemEventArgs e)
+    protected void TextBoxHotel_TextChanged(object sender, EventArgs e)
     {
-
+        LoadHotel();
     }
+
+
 
     protected void ListViewPlace_PagePropertiesChanged(object sender, EventArgs e)
     {
         LoadPlace();
-    }
-
-    protected void ListViewHotel_DataBound(object sender, EventArgs e)
-    {
-
     }
 
     protected void ListViewHotel_PagePropertiesChanged(object sender, EventArgs e)
@@ -488,10 +419,22 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         LoadHotel();
     }
 
-    protected void TextBoxHotel_TextChanged(object sender, EventArgs e)
+    private void  MainSave()
     {
-        LoadHotel();
+
     }
+
+    private void saveOrderWithPKTour()
+    {
+        string book_code = Guid.NewGuid().ToString();
+
+    }
+
+
+    private void saveOrderWithPTour() { }
+
+
+    
 }
 
     
