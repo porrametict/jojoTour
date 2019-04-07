@@ -13,7 +13,6 @@
                 <asp:TextBox ID="TextBoxFname" CssClass="form-control " runat="server"></asp:TextBox>
                 <asp:Label ID="errorFName" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
                     <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
-
             </div>
 
             <div class="form-group ">
@@ -254,6 +253,14 @@
                              <div class="col-12 col-md my-2">
                                  <label>ราคา</label>
                                  <asp:TextBox ID="TextBoxPrice" runat="server" Text='<%# Eval("t_price") %>' CssClass="form-control " TextMode="Number" ReadOnly="true"></asp:TextBox>
+
+                                 <label class="mt-1">เลือกสถานะของทัวร์</label>
+                    <asp:DropDownList ID="DropDownListStatus" runat="server" DataSourceID="SqlDataSource1" DataTextField="th_name" DataValueField="id" CssClass="form-control">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT        id, th_name, en_name, th_detail, en_detail
+FROM            book_status
+WHERE        (id IN (2,  5))"></asp:SqlDataSource>
+                    <br />
                              </div>
                          </div>
                      </ItemTemplate>
@@ -412,11 +419,11 @@
                     <label>ราคา</label>
                 <asp:TextBox ID="TextBoxPrice" runat="server" CssClass="form-control " TextMode="Number" ></asp:TextBox>
                     <label class="mt-1">เลือกสถานะของทัวร์</label>
-                    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1" DataTextField="th_name" DataValueField="id" CssClass="form-control">
+                    <asp:DropDownList ID="DropDownListStatus" runat="server" DataSourceID="SqlDataSource1" DataTextField="th_name" DataValueField="id" CssClass="form-control">
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT        id, th_name, en_name, th_detail, en_detail
 FROM            book_status
-WHERE        (id IN (2, 4, 5))"></asp:SqlDataSource>
+WHERE        (id IN (2,  5))"></asp:SqlDataSource>
                     <br />
                 </div>
     
@@ -598,11 +605,84 @@ WHERE        (id IN (2, 4, 5))"></asp:SqlDataSource>
             <!--Modal-->
 
             </div>
-
            
             <!--PTour-->
+               <div class="bg-white border rounded p-3 my-2">
+                <label class="mt-2">รายละเอียดเพิ่มเติม</label>
+                  <hr />
+
+            <asp:Calendar ID="CalendarPicker" runat="server"></asp:Calendar>
+                  
+                   
+            <div class="row">
+                 <div class="col-12 form-group">
+                       <asp:Label ID="Label5" runat="server" Text="เวลานัดเจอ"></asp:Label>
+                   <asp:DropDownList ID="DropDownListTimePicker" runat="server" CssClass="form-control">
+                       <asp:ListItem>06:00</asp:ListItem>
+                       <asp:ListItem>07:00</asp:ListItem>
+                       <asp:ListItem>08:00</asp:ListItem>
+                       <asp:ListItem>09:00</asp:ListItem>
+                       <asp:ListItem>10:00</asp:ListItem>
+                       <asp:ListItem>11:00</asp:ListItem>
+                       <asp:ListItem>12:00</asp:ListItem>
+                       <asp:ListItem>13:00</asp:ListItem>
+                       <asp:ListItem>14:00</asp:ListItem>
+                       <asp:ListItem>15:00</asp:ListItem>
+                       <asp:ListItem>16:00</asp:ListItem>
+                       <asp:ListItem>17:00</asp:ListItem>
+                       <asp:ListItem>18:00</asp:ListItem>
+                   </asp:DropDownList>
+                   </div>
+
+                <div class="col form-group">
+                    <asp:Label ID="Label3" runat="server" Text="จำนวนเด็ก"></asp:Label>
+                    <asp:DropDownList ID="DropDownListChildren"  CssClass="form-control" runat="server">
+                        <asp:ListItem Selected="True">0</asp:ListItem>
+                        <asp:ListItem>1</asp:ListItem>
+                        <asp:ListItem>2</asp:ListItem>
+                        <asp:ListItem>3</asp:ListItem>
+                        <asp:ListItem>4</asp:ListItem>
+                        <asp:ListItem>5</asp:ListItem>
+                        <asp:ListItem>6</asp:ListItem>
+                        <asp:ListItem>7</asp:ListItem>
+                        <asp:ListItem>8</asp:ListItem>
+                        <asp:ListItem>9</asp:ListItem>
+                        <asp:ListItem>10</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div class="col form-group">
+                     <asp:Label ID="Label4" runat="server" Text="จำนวนผู้ใหญ่"></asp:Label>
+                    <asp:DropDownList ID="DropDownListAdult"  CssClass="form-control" runat="server">
+                        <asp:ListItem Selected="True">2</asp:ListItem>
+                        <asp:ListItem>3</asp:ListItem>
+                        <asp:ListItem>4</asp:ListItem>
+                        <asp:ListItem>5</asp:ListItem>
+                        <asp:ListItem>6</asp:ListItem>
+                        <asp:ListItem>7</asp:ListItem>
+                        <asp:ListItem>8</asp:ListItem>
+                        <asp:ListItem>9</asp:ListItem>
+                        <asp:ListItem>10</asp:ListItem>
+                        <asp:ListItem>11</asp:ListItem>
+                        <asp:ListItem>12</asp:ListItem>
+                        <asp:ListItem>13</asp:ListItem>
+                        <asp:ListItem>14</asp:ListItem>
+                        <asp:ListItem>15</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div class="col-12 form-group">
+                    <label>สถานที่นัดพบ</label>
+                    <asp:TextBox ID="TextBoxMeetplace"  CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+                </div>
+                <div class="col-12 form-group">
+                    <label>รายละเอียดเพิ่มเติม</label>
+                    <asp:TextBox ID="TextBoxMoredetail" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+                </div>
+            </div>
+        </div>
                 
         </div>
+
+     
     </div>
 
     <!-- JS -->
