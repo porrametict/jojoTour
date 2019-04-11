@@ -82,14 +82,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
     }
 
-    protected void SaveTour()
-    {
-
-
-    }
-
-
-
 
     protected void TextBox1_TextChanged(object sender, EventArgs e)
     {
@@ -117,8 +109,13 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     }
 
     private void LoadPKSElectTour()
+
     {
-        string query = "select t.tour_code id , t.th_name t_th_name ,t.price t_price from tour t where t.tour_code = " + Session["PKTourSelected"].ToString();
+        string query = "select t.tour_code id , t.th_name t_th_name ,t.price t_price from tour t where t.tour_code = 0.0";
+
+        if (Session["PKTourSelected"] != null) {
+             query = "select t.tour_code id , t.th_name t_th_name ,t.price t_price from tour t where t.tour_code = " + Session["PKTourSelected"].ToString();
+        }
 
 
         string StrConn = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
@@ -506,7 +503,165 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     }
 
 
-    private void saveOrderWithPTour() { }
+    private void saveOrderWithPTour()
+    {
+        string ID = SaveNewPlanTour();
+        SaveHotelSelect(ID);
+        SavePalceSelect(ID);
+
+
+        string Date = CalendarPicker.SelectedDate.Day.ToString();
+        string Month = CalendarPicker.SelectedDate.Month.ToString();
+        string Year = CalendarPicker.SelectedDate.Year.ToString();
+        string Time = DropDownListTimePicker.SelectedValue;
+        string DateTime = Year + "-" + Month + "-" + Date + "T" + Time;
+
+
+        string book_code = Guid.NewGuid().ToString();
+        string SqlCode = "INSERT INTO book_tour(book_code, c_firstname, c_lastname, c_phone, c_email, travel_datetime, number_of_children, number_of_adults, meeting_place, more_detail, tour_code) VALUES(@book_code, @c_f_name, @c_l_name, @c_phone, @c_email, @travel_datetime, @n_c, @n_a, @meet_place, @more_detail, @tour_code)";
+
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ConObj = new SqlConnection(ConnectString))
+        {
+            ConObj.Open();
+            using (SqlCommand CmObj = new SqlCommand())
+            {
+
+                CmObj.CommandText = SqlCode;
+                CmObj.Connection = ConObj;
+                CmObj.Parameters.AddWithValue("@book_code", book_code);
+                CmObj.Parameters.AddWithValue("@c_f_name", TextBoxFname.Text);
+                CmObj.Parameters.AddWithValue("@c_l_name", TextBoxLname.Text);
+                CmObj.Parameters.AddWithValue("@c_phone", TextBoxPhone.Text);
+                CmObj.Parameters.AddWithValue("@c_email", TextBoxEmail.Text);
+                CmObj.Parameters.AddWithValue("@travel_datetime", Convert.ToDateTime(DateTime));
+                CmObj.Parameters.AddWithValue("@n_c", DropDownListChildren.SelectedValue);
+                CmObj.Parameters.AddWithValue("@n_a", DropDownListAdult.SelectedValue);
+                CmObj.Parameters.AddWithValue("@meet_place", TextBoxMeetplace.Text);
+                CmObj.Parameters.AddWithValue("@more_detail", TextBoxMoredetail.Text);
+                CmObj.Parameters.AddWithValue("@tour_code", ID);
+
+                if (CmObj.ExecuteNonQuery() != 0)
+                {
+                    string status = DropDownListStatus.SelectedValue;
+                    saveStatusId(book_code, status);
+
+                };
+
+            }
+            ConObj.Close();
+
+
+
+        }
+    }
+
+    private  string  SaveNewPlanTour()
+    {
+        string Id = "";
+
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ConObj = new SqlConnection(ConnectString))
+        {
+            ConObj.Open();
+            String SQL = "INSERT INTO tour(th_name,price,type_tour_id) output INSERTED.tour_code VALUES (@th_name,@price,@type_tour_id)";
+            using (SqlCommand CmObj = new SqlCommand())
+            {
+                CmObj.CommandText = SQL;
+                CmObj.Connection = ConObj;
+                CmObj.Parameters.AddWithValue("@th_name", "ทัวร์ของ" + TextBoxFname.Text);
+                CmObj.Parameters.AddWithValue("@price", TextBoxPrice.Text);
+                CmObj.Parameters.AddWithValue("@type_tour_id", "2");
+
+                Id = (string)CmObj.ExecuteScalar().ToString();
+
+                if (Id.Length >  0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+            }
+            ConObj.Close();
+        }
+
+        return Id; 
+
+    }
+
+
+    protected void SaveHotelSelect (string id)
+    {
+        foreach (ListViewDataItem item in ListViewHotelSelected.Items)
+        {
+            HiddenField HotelPK = (HiddenField)item.FindControl("HiddenFieldHotelId");
+            string Hpk = HotelPK.Value;
+            TextBox dateOfTour = (TextBox)item.FindControl("TextBoxDate");
+            string DOT = dateOfTour.Text;
+            System.Diagnostics.Debug.WriteLine("HPK = " + Hpk + " DOT = " + DOT);
+
+            string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+            using (SqlConnection ConObj = new SqlConnection(ConnectString))
+            {
+                ConObj.Open();
+                String SQL = "INSERT INTO tour_location(tour_code,location_id,date_of_tour) VALUES (@tour_code,@location_id,@date_of_tour)";
+                using (SqlCommand CmObj = new SqlCommand())
+                {
+                    CmObj.CommandText = SQL;
+                    CmObj.Connection = ConObj;
+                    CmObj.Parameters.AddWithValue("@tour_code", id);
+                    CmObj.Parameters.AddWithValue("@location_id", Hpk);
+                    CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
+
+                    if (CmObj.ExecuteNonQuery() > 0)
+                    {
+                        //System.Diagnostics.Debug.WriteLine(CreatedId);
+                    }
+
+                }
+                ConObj.Close();
+            }
+
+        }
+    }
+
+    protected void SavePalceSelect(string id )
+    {
+        foreach (ListViewDataItem item in ListViewPlaceSelected.Items)
+        {
+            HiddenField PlacePK = (HiddenField)item.FindControl("HiddenFieldPlaceId");
+            string Ppk = PlacePK.Value;
+            TextBox dateOfTour = (TextBox)item.FindControl("TextBoxDate");
+            string DOT = dateOfTour.Text;
+            System.Diagnostics.Debug.WriteLine("PPK = " + Ppk + " DOT = " + DOT);
+
+            string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+            using (SqlConnection ConObj = new SqlConnection(ConnectString))
+            {
+                ConObj.Open();
+                String SQL = "INSERT INTO tour_location(tour_code,location_id,date_of_tour) VALUES (@tour_code,@location_id,@date_of_tour)";
+                using (SqlCommand CmObj = new SqlCommand())
+                {
+                    CmObj.CommandText = SQL;
+                    CmObj.Connection = ConObj;
+                    CmObj.Parameters.AddWithValue("@tour_code", id);
+                    CmObj.Parameters.AddWithValue("@location_id", Ppk);
+                    CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
+
+                    if (CmObj.ExecuteNonQuery() > 0)
+                    {
+                        //System.Diagnostics.Debug.WriteLine(CreatedId);
+                    }
+
+                }
+                ConObj.Close();
+            }
+
+        }
+    }
 
 
 

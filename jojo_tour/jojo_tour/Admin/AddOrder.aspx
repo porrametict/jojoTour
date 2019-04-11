@@ -705,6 +705,8 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
         }
         function ctSet() {
             let hf = document.getElementById('<%= HiddenFieldTypeTour.ClientID %>').value = '2';
+            $('#PTDialog').modal('show');
+   
             PTShowShow();
         }
 
