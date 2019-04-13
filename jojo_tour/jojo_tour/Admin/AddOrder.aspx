@@ -611,7 +611,7 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
                 <label class="mt-2">รายละเอียดเพิ่มเติม</label>
                   <hr />
 
-            <asp:Calendar ID="CalendarPicker" runat="server"></asp:Calendar>
+            <asp:Calendar ID="CalendarPicker" runat="server" CssClass="w-100" OnDayRender="CalendarPicker_DayRender"></asp:Calendar>
                   
                    
             <div class="row">
