@@ -177,6 +177,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         ListViewPlace.DataBind();
 
 
+
+
     }
 
     public void LoadHotel()
@@ -212,6 +214,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         ListViewHotel.DataSource = dt;
 
         ListViewHotel.DataBind();
+
 
 
     }
@@ -260,6 +263,9 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         ListViewPlaceSelected.DataSource = dt;
         ListViewPlaceSelected.DataBind();
 
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "ShoeP", "PKShowHide();", true);
+
+
     }
 
     public void LoadSelectedHotel()
@@ -307,6 +313,9 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         ListViewHotelSelected.DataSource = dt;
 
         ListViewHotelSelected.DataBind();
+
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "ShoeP", "PKShowHide();", true);
+
 
 
 
@@ -381,7 +390,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         if (e.CommandName == "add_hotel")
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
 
             Session["hotelSelected"] = (string)Session["hotelSelected"] + " " + e.CommandArgument.ToString();
 
@@ -665,7 +674,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
     }
 
-    private void loadCalender(DayRenderEventArgs e)
+    public void loadCalender(DayRenderEventArgs e)
     {
         string SqlCode = "SELECT b.travel_datetime, max(tl.date_of_tour) max_date , tl.tour_code FROM book_tour b INNER JOIN tour_location  tl ON b.tour_code = tl.tour_code group by tl.tour_code ,b.travel_datetime";
 
