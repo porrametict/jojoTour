@@ -40,9 +40,15 @@
                 <asp:BoundField DataField="th_name" HeaderText="สถานะทัวร์" SortExpression="th_name" />
                 <asp:BoundField DataField="t_time" HeaderText="วันเวลาเดินทาง" SortExpression="t_time" />
                
+                <asp:TemplateField HeaderText="จัดการ">
+                    <ItemTemplate>
+                        <asp:Button ID="Button1" CssClass="btn btn-outline-danger" runat="server"  PostBackUrl='<%# Eval("book_code","AddOrder.aspx?id={0}") %>' Text="View" />
+                    </ItemTemplate>
+                </asp:TemplateField>
+               
             </Columns>
         </asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSourceOrder" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT bt.book_code AS b_code, bt.travel_datetime AS t_time, tt.th_name AS type_name, book_status.th_name FROM book_tour AS bt INNER JOIN tour AS t ON bt.tour_code = t.tour_code INNER JOIN type_tour AS tt ON tt.id = t.type_tour_id INNER JOIN book_status_history ON bt.book_code = book_status_history.book_code INNER JOIN book_status ON book_status_history.status_id = book_status.id"></asp:SqlDataSource>
+      
             </div>
         </div>
         
