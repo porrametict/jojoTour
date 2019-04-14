@@ -20,28 +20,29 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
     protected void ButtonDel_Click(object sender, EventArgs e)
     {
-        //string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
-        //using (SqlConnection ConObj = new SqlConnection(ConnectString))
-        //{
-        //    ConObj.Open();
-        //    String SQL = "DELETE FROM Product WHERE id = @id";
-        //    using (SqlCommand CmObj = new SqlCommand())
-        //    {
-        //        CmObj.CommandText = SQL;
-        //        CmObj.Connection = ConObj;
-        //        CmObj.Parameters.AddWithValue("@id", Request.QueryString["ProductId"]);
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ConObj = new SqlConnection(ConnectString))
+        {
+            ConObj.Open();
+            String SQL = "DELETE FROM location WHERE id = @id";
+            using (SqlCommand CmObj = new SqlCommand())
+            {
+                CmObj.CommandText = SQL;
+                CmObj.Connection = ConObj;
+                CmObj.Parameters.AddWithValue("@id", Request.QueryString["id"]);
 
-        //        if (CmObj.ExecuteNonQuery() > 0)
-        //        {
-        //            Response.Redirect("Default.aspx");
-        //        }
-        //        else
-        //        {
+                if (CmObj.ExecuteNonQuery() > 0)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','ลบสำเร็จเเล้ว','success')", true);
+                    Response.Redirect("PlaceAndHotel.aspx");
+                }
+                else
+                {
 
-        //        }
-        //    }
-        //    ConObj.Close();
-        //}
+                }
+            }
+            ConObj.Close();
+        }
 
 
     }
