@@ -15,7 +15,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     }
     protected void ButtonEdit_Click(object sender, EventArgs e)
     {
-        Response.Redirect("EditProduct.aspx?ProductId=" + Request.QueryString["ProductId"]);
+        Response.Redirect("AddLocation.aspx?id=" + Request.QueryString["id"]);
     }
 
     protected void ButtonDel_Click(object sender, EventArgs e)
