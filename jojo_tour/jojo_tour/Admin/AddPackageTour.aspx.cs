@@ -19,8 +19,15 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         LoadPlace();
         LoadSelectedHotel();
         LoadSelectedPlace();
+        if (!IsPostBack)
+        {
+            Session.Clear();
 
-
+            if (Request.QueryString["id"] != null)
+            {
+                GetData(Request.QueryString["id"].ToString());
+            }
+        }
 
     }
 
@@ -319,9 +326,20 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         System.Diagnostics.Debug.WriteLine("Save");
 
-        SaveTour();
+        if (Request.QueryString["id"] != null)
+        {
+            SaveEditTour();
+        }
+        else
+        {
+            SaveTour();
+          
+        }
+
         SaveHotelSelect();
         SavePalceSelect();
+
+
 
         System.Diagnostics.Debug.WriteLine("Saved");
 
@@ -366,24 +384,65 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
                 }
 
-                //if (ConObj.State == System.Data.ConnectionState.Open)
-                //    ConObj.Close();
 
-
-                //if (CmObj.ExecuteNonQuery() > 0)
-                //{
-                //    //System.Diagnostics.Debug.WriteLine(CreatedId);
-
-                //}
-                //else
-                //{
-
-                //}
             }
             ConObj.Close();
         }
     }
 
+    protected void SaveEditTour()
+    {
+
+
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ConObj = new SqlConnection(ConnectString))
+        {
+            ConObj.Open();
+            String SQL = "UPDATE tour SET en_name=@en_name,th_name=@th_name,en_detail=@en_detail,th_detail=@th_detail,price=@price,type_tour_id=@type_tour_id";
+            using (SqlCommand CmObj = new SqlCommand())
+            {
+                CmObj.CommandText = SQL;
+                CmObj.Connection = ConObj;
+                CmObj.Parameters.AddWithValue("@en_name", TextBoxENname.Text);
+                CmObj.Parameters.AddWithValue("@th_name", TextBoxTHname.Text);
+                CmObj.Parameters.AddWithValue("@en_detail", TextBoxENdetail.Text);
+                CmObj.Parameters.AddWithValue("@th_detail", TextBoxTHdetail.Text);
+                CmObj.Parameters.AddWithValue("@price", TextBoxPrice.Text);
+                CmObj.Parameters.AddWithValue("@type_tour_id", "1");
+
+                if (CmObj.ExecuteNonQuery() != 0) {
+
+                };
+
+            }
+            ConObj.Close();
+
+            DelOldTourLocation();
+
+        }
+    }
+
+    protected void DelOldTourLocation()
+    {
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ConObj = new SqlConnection(ConnectString))
+        {
+            ConObj.Open();
+            String SQL = "DELETE FROM tour_location WHERE tour_code = @id";
+            using (SqlCommand CmObj = new SqlCommand())
+            {
+                CmObj.CommandText = SQL;
+                CmObj.Connection = ConObj;
+                CmObj.Parameters.AddWithValue("@id", Request.QueryString["id"]);
+
+                if (CmObj.ExecuteNonQuery() != 0)
+                {
+
+                };
+            }
+            ConObj.Close();
+        }
+    }
     protected void SaveHotelSelect()
     {
         foreach (ListViewDataItem item in ListViewHotelSelected.Items)
@@ -403,7 +462,16 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                 {
                     CmObj.CommandText = SQL;
                     CmObj.Connection = ConObj;
-                    CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
+                    if (Request.QueryString["id"] != null)
+                    {
+                        CmObj.Parameters.AddWithValue("@tour_code", Request.QueryString["id"].ToString());
+
+                    }
+                    else
+                    {
+                        CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
+
+                    }
                     CmObj.Parameters.AddWithValue("@location_id", Hpk);
                     CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
 
@@ -438,7 +506,16 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                 {
                     CmObj.CommandText = SQL;
                     CmObj.Connection = ConObj;
-                    CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
+                    if (Request.QueryString["id"] != null)
+                    {
+                        CmObj.Parameters.AddWithValue("@tour_code", Request.QueryString["id"].ToString());
+
+                    }
+                    else
+                    {
+                        CmObj.Parameters.AddWithValue("@tour_code", CreatedId);
+
+                    }
                     CmObj.Parameters.AddWithValue("@location_id", Ppk);
                     CmObj.Parameters.AddWithValue("@date_of_tour", DOT);
 
@@ -495,6 +572,70 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
 
     }
+
+
+    private void GetData(string id)
+    {
+        string StrConn = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ObjConn = new SqlConnection(StrConn))
+        {
+            ObjConn.Open();
+            using (SqlCommand ObjCM = new SqlCommand())
+            {
+                ObjCM.Connection = ObjConn;
+                ObjCM.CommandText = "SELECT * FROM tour where tour_code = @id";
+                ObjCM.Parameters.AddWithValue("@id", id);
+                SqlDataReader ObjDR = ObjCM.ExecuteReader();
+                ObjDR.Read();
+                TextBoxENname.Text = ObjDR["en_name"].ToString();
+                TextBoxTHname.Text = ObjDR["th_name"].ToString();
+                TextBoxENdetail.Text = ObjDR["en_detail"].ToString();
+                TextBoxTHdetail.Text = ObjDR["th_detail"].ToString();
+                TextBoxPrice.Text = ObjDR["price"].ToString();
+
+                ObjDR.Close();
+            }
+            ObjConn.Close();
+        }
+
+        GetLocation(id);
+    }
+
+    private void GetLocation(string id)
+    {
+        string query = "select tour_code , location_id , date_of_tour , type_location_id from tour_location tl inner join location l on l.id = tl.location_id where tour_code = " + id;
+
+        string StrConn = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        SqlDataAdapter sda = new SqlDataAdapter(query, StrConn);
+        DataTable dt = new DataTable();
+        sda.Fill(dt);
+
+        foreach (DataRow row in dt.Rows)
+        {
+            string location_id = row["location_id"].ToString();
+            string type_location_id = row["type_location_id"].ToString();
+
+            System.Diagnostics.Debug.WriteLine("IN LOOP " + location_id);
+
+            if (type_location_id != "7")
+            {
+                Session["placeSelected"] = (string)Session["placeSelected"] + " " + location_id;
+
+            }
+            else
+            {
+                Session["hotelSelected"] = (string)Session["hotelSelected"] + " " + location_id;
+
+            }
+        }
+
+        System.Diagnostics.Debug.WriteLine("Session - " + Session["placeSelected"]);
+        LoadSelectedPlace();
+        LoadSelectedHotel();
+
+
+
+    }
 }
 
-    
+
