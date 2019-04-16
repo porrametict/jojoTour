@@ -44,7 +44,10 @@ public partial class _Default : Page
             MainSave();
 
         }
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','จองสำเร็จเเล้ว','success')", true);
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"] 
+        +" ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
+        Response.Redirect("TourTracking.aspx?id="+ Session["book_code"]);
+
 
     }
 
@@ -224,9 +227,6 @@ public partial class _Default : Page
 
         ScriptManager.RegisterStartupScript(this, this.GetType(), "ShoeP", "PKShowHide();", true);
 
-
-
-
     }
 
 
@@ -370,6 +370,7 @@ public partial class _Default : Page
 
 
         string book_code = Guid.NewGuid().ToString();
+        Session["book_code"] = book_code;
         string SqlCode = "INSERT INTO book_tour(book_code, c_firstname, c_lastname, c_phone, c_email, travel_datetime, number_of_children, number_of_adults, meeting_place, more_detail, tour_code) VALUES(@book_code, @c_f_name, @c_l_name, @c_phone, @c_email, @travel_datetime, @n_c, @n_a, @meet_place, @more_detail, @tour_code)";
 
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
@@ -450,6 +451,8 @@ public partial class _Default : Page
 
 
         string book_code = Guid.NewGuid().ToString();
+        Session["book_code"] = book_code;
+
         string SqlCode = "INSERT INTO book_tour(book_code, c_firstname, c_lastname, c_phone, c_email, travel_datetime, number_of_children, number_of_adults, meeting_place, more_detail, tour_code) VALUES(@book_code, @c_f_name, @c_l_name, @c_phone, @c_email, @travel_datetime, @n_c, @n_a, @meet_place, @more_detail, @tour_code)";
 
         string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;

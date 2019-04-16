@@ -70,6 +70,9 @@
             </div>
         </nav>
         <div class="container body-content my-3">
+
+            <asp:SiteMapPath ID="SiteMapPathAdmin" runat="server"></asp:SiteMapPath>
+
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>           
         </div>
