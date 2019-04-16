@@ -253,7 +253,7 @@
                          <div class="row">
                              <div class="col-12 col-md my-2">
                                  <label>ราคา</label>
-                                 <asp:TextBox ID="TextBoxPrice" runat="server" Text='<%# Eval("t_price") %>' CssClass="form-control " TextMode="Number" ReadOnly="true"></asp:TextBox>
+                                 <asp:TextBox ID="TextBoxPrice" runat="server" Text='<%# Eval("t_price") %>' CssClass="form-control " TextMode="Number" ></asp:TextBox>
                   
                     <br />
                              </div>
