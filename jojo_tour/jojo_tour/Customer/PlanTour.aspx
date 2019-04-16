@@ -186,7 +186,6 @@
                             </LayoutTemplate>
                         </asp:ListView>
                                 </ContentTemplate>
-                           
                            </asp:UpdatePanel>
                     </div>
                 </div>

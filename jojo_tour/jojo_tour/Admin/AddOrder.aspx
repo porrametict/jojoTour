@@ -685,7 +685,7 @@
                 <hr />
                 <h6>หลักฐานการโอนเงิน</h6>
                 <div class="col-12">
-                   <asp:Image ID="ImgPayment" runat="server" ImageUrl="~/DataStorage/LocationImg/No_Image_Available.jpg" />
+                   <asp:Image ID="ImgPayment" runat="server" ImageUrl="~/DataStorage/LocationImg/No_Image_Available.jpg" CssClass="w-100"/>
                 </div>
             </div>
 
