@@ -94,7 +94,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         if (Request.QueryString["id"] != null)
         {
             SaveUpdateStatus(Request.QueryString["id"]);
-            UpdateNewPrice(Request.QueryString["id"]);
         }
         else
         {
@@ -890,32 +889,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         LoadPKSElectTour();
 
     }
-
-    private void UpdateNewPrice(string id)
-    {
-
-        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
-        using (SqlConnection ConObj = new SqlConnection(ConnectString))
-        {
-            ConObj.Open();
-            String SQL = "UPDATE tour SET price = @price WHERE tour_code = (select tour_code from book_tour where book_code = @id)  ";
-            using (SqlCommand CmObj = new SqlCommand())
-            {
-                CmObj.CommandText = SQL;
-                CmObj.Connection = ConObj;
-                CmObj.Parameters.AddWithValue("@price", TextBoxPrice.Text);
-                CmObj.Parameters.AddWithValue("@id", id);
-
-                if (CmObj.ExecuteNonQuery() != 0)
-                {
-
-                };
-
-            }
-            ConObj.Close();
-        }
-    }
-
 
 }
 
