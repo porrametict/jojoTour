@@ -98,7 +98,7 @@
                                     Text="จองผ่านเว็บ"
                                     CssClass="btn btn-danger btn-lg btn-block"
                                     CommandName="order_btn"
-                                    CommandArgument='<%# Eval("id") %>' />
+                                    CommandArgument='<%# Eval("id") %>' EnableTheming="True" />
 
 
                                 <br />
