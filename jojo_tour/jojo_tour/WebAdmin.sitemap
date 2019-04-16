@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/Admin/Home" title="Home"  description="" >
+    
+    <siteMapNode url="~/Admin/Order" title="Order"  description="" >
+      <siteMapNode url="~/Admin/AddOrder" title="Add Or Edit Order "  description="" />
+    </siteMapNode>
+    
+    <siteMapNode url="~/Admin/PackageTour" title="Package Tour"  description="" >
+      <siteMapNode url="~/Admin/PackageTourView" title="Package Tour Detail"  description="" >
+        <siteMapNode url="~/Admin/AddPackageTour" title="Add Or Edit Package Tour "  description="" />
+      </siteMapNode>
+    </siteMapNode>
+    
+    <siteMapNode url="~/Admin/PlaceAndHotel" title="Place And Hotel "  description="" >
+      <siteMapNode url="~/Admin/LocationView" title="Place And Hotel Detail"  description="" >
+        <siteMapNode url="~/Admin/AddLocation" title="Add Or Edit Place And Hotel "  description="" />
+      </siteMapNode>
+    </siteMapNode>
+  </siteMapNode>
+   
+</siteMap>

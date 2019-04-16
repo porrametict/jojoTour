@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/Customer/Home" title="Home"  description="">
+    
+    <siteMapNode url="~/Customer/PackageTour" title="Package Tour"  >
+      <siteMapNode url="~/Customer/PackageTourView" title="Package Tour Detail" ></siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="~/Customer/PlanTour" title="Plan Tour" ></siteMapNode>
+    <siteMapNode url="~/Customer/TourTracking" title="Tracking Tour" ></siteMapNode>
+    <siteMapNode url="~/Customer/Review" title="Review" ></siteMapNode>
+    <siteMapNode url="~/Customer/OrderPackageTour" title="Order" ></siteMapNode>
+
+
+  </siteMapNode>
+</siteMap>

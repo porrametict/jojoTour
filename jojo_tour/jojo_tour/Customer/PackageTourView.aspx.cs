@@ -16,7 +16,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
         if (e.CommandName == "order_btn")
         {
-            Response.Redirect("Review.aspx?id=" + e.CommandArgument);
+            Response.Redirect("OrderPackageTour.aspx?id=" + e.CommandArgument);
         }
     }
 }
