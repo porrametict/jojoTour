@@ -33,7 +33,7 @@
                     <hr />
                 </ItemTemplate>
             </asp:DataList>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT TOP(5) book_status.th_name, book_tour.book_code, book_status_history.created_at FROM book_status INNER JOIN book_status_history ON book_status.id = book_status_history.status_id INNER JOIN book_tour ON book_status_history.book_code = book_tour.book_code"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT TOP (5) book_status.th_name, book_tour.book_code, book_status_history.created_at FROM book_status INNER JOIN book_status_history ON book_status.id = book_status_history.status_id INNER JOIN book_tour ON book_status_history.book_code = book_tour.book_code ORDER BY book_status_history.created_at DESC"></asp:SqlDataSource>
         </div>
     </div>
 

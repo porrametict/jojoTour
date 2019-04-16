@@ -20,14 +20,26 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         {
             BindListView();
         }
+
+        if (!IsPostBack)
+        {
+            Session.Clear();
+
+            if (Request.QueryString["id"] != null)
+            {
+                GetData(Request.QueryString["id"].ToString());
+            }
+        }
+
         LoadHotel();
         LoadPlace();
         LoadSelectedHotel();
         LoadSelectedPlace();
         LoadPKSElectTour();
 
-
+       
     }
+
     protected void BindListView()
     {
         string query = "select  tl.tour_code id ,tl.location_id location_id,t.th_name t_th_name,t.en_name t_en_name, l.province_id province, l.type_location_id type_location ,ml.image img  from tour_location tl ";
@@ -79,7 +91,17 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void ButtonSave_Click(object sender, EventArgs e)
 
     {
-        MainSave();
+        if (Request.QueryString["id"] != null)
+        {
+            SaveUpdateStatus(Request.QueryString["id"]);
+        }
+        else
+        {
+            MainSave();
+
+        }
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
+
 
     }
 
@@ -439,6 +461,11 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
     }
 
+    private void SaveUpdateStatus(string Id)
+    {
+        saveStatusId(Id, DropDownListStatus.SelectedValue);
+    }
+
     private void saveOrderWithPKTour()
     {
         string Date = CalendarPicker.SelectedDate.Day.ToString();
@@ -724,7 +751,145 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void CalendarPicker_DayRender(object sender, DayRenderEventArgs e)
     {
         loadCalender(e);
+        if (Request.QueryString["id"] != null)
+        {
+            loadDateTime(e);
+            
+        }
     }
+
+
+    private void GetData(string id)
+    {
+        string StrConn = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        using (SqlConnection ObjConn = new SqlConnection(StrConn))
+        {
+            ObjConn.Open();
+            using (SqlCommand ObjCM = new SqlCommand())
+            {
+                ObjCM.Connection = ObjConn;
+                ObjCM.CommandText = "SELECT * FROM book_tour bt inner join book_status_history bs on bt.book_code = bs.book_code where bt.book_code = @id";
+                ObjCM.Parameters.AddWithValue("@id", id);
+                SqlDataReader ObjDR = ObjCM.ExecuteReader();
+                ObjDR.Read();
+
+                TextBoxFname.Text = ObjDR["c_firstname"].ToString();
+                TextBoxFname.ReadOnly = true;
+
+                TextBoxLname.Text = ObjDR["c_lastname"].ToString();
+                TextBoxLname.ReadOnly = true;
+
+                TextBoxPhone.Text = ObjDR["c_phone"].ToString();
+                TextBoxPhone.ReadOnly = true;
+
+                TextBoxEmail.Text = ObjDR["c_email"].ToString();
+                TextBoxEmail.ReadOnly = true;
+
+                TextBoxMeetplace.Text = ObjDR["meeting_place"].ToString();
+                TextBoxMeetplace.ReadOnly = true;
+
+                TextBoxMoredetail.Text = ObjDR["more_detail"].ToString();
+                TextBoxMoredetail.ReadOnly = true;
+
+
+
+                LoadTour(ObjDR["tour_code"].ToString());
+
+                DropDownListChildren.SelectedValue = ObjDR["number_of_children"].ToString();
+                DropDownListChildren.Enabled = false;
+
+                DropDownListAdult.SelectedValue = ObjDR["number_of_adults"].ToString();
+                DropDownListAdult.Enabled = false;
+
+
+                DropDownListStatus.SelectedValue = ObjDR["status_id"].ToString();
+
+
+
+                if (ObjDR["payment_slip"].ToString() != "")
+                {
+                    ImgPayment.ImageUrl = ObjDR["payment_slip"].ToString();
+                }
+
+                ObjDR.Close();
+            }
+            ObjConn.Close();
+        }
+
+    }
+
+
+    private void loadDateTime(DayRenderEventArgs e)
+    {
+        string SqlCode = "SELECT b.travel_datetime, max(tl.date_of_tour) max_date , tl.tour_code FROM book_tour b INNER JOIN tour_location  tl ON b.tour_code = tl.tour_code where b.book_code = @id group by tl.tour_code ,b.travel_datetime ";
+
+        string ConnectString = WebConfigurationManager.ConnectionStrings["jojoDBConnectionString"].ConnectionString;
+        SqlDataAdapter sda = new SqlDataAdapter(SqlCode, ConnectString);
+        sda.SelectCommand.Parameters.AddWithValue("@id", Request.QueryString["id"]);
+
+        DataTable dt = new DataTable();
+
+        sda.Fill(dt);
+
+        List<string> InDate = new List<string>();
+        List<string> InDateNext = new List<string>();
+
+
+        foreach (DataRow row in dt.Rows)
+
+        {
+            string[] DateNow = Convert.ToDateTime(row["travel_datetime"]).ToString().Split(' ');
+            InDate.Add(DateNow[0]);
+
+            string Time = DateNow[1].Substring(0, 5);
+
+            DropDownListTimePicker.SelectedValue = Time;
+            DropDownListTimePicker.Enabled = false;
+
+
+            System.Diagnostics.Debug.WriteLine(Time,"Time");
+
+            int maxDate = Convert.ToInt32(row["max_date"].ToString());
+            if (maxDate > 1)
+            {
+                DateTime C_date = Convert.ToDateTime(row["travel_datetime"]);
+                System.Diagnostics.Debug.WriteLine(C_date);
+                for (int i = 2; i <= maxDate; i++)
+                {
+                    string[] NextDay = C_date.AddDays(i - 1).ToString().Split(' ');
+                    InDateNext.Add(NextDay[0]);
+                }
+            }
+        }
+
+        string[] CalDate = e.Day.Date.ToString().Split(' ');
+        if (InDate.Contains(CalDate[0]) || InDateNext.Contains(CalDate[0]))
+        {
+            System.Diagnostics.Debug.WriteLine("iF" + " " + e.Day.Date.ToString() + " D ");
+            e.Cell.ForeColor = System.Drawing.Color.White;
+            e.Cell.BackColor = System.Drawing.Color.LightGreen;
+            e.Day.IsSelectable = false;
+        }
+        else
+        {
+            e.Day.IsSelectable = false;
+
+            System.Diagnostics.Debug.WriteLine("ELSE" + " " + e.Day.Date.ToString() + " D ");
+        }
+
+
+    }
+
+    private void LoadTour(string DT)
+    {
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "HEdit", "HideEdit();", true);
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "ShoePH", "PTShowHide();", true);
+
+        Session["PKTourSelected"] = DT;
+        LoadPKSElectTour();
+
+    }
+
 }
 
 

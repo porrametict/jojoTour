@@ -41,6 +41,7 @@
                 <asp:Button ID="ButtonSave" runat="server" Text="บันทึกการจอง" CssClass="btn btn-success btn-block" OnClick="ButtonSave_Click" />
             </div>
 
+            
         </div>
 
         <div class="col-12 col-md-8 border px-5 py-2 m-1 bg-light order-0">
@@ -48,7 +49,7 @@
             <hr />
 
             <div>
-                <div class="row">
+                <div class="row " id="HideEdit">
                     <asp:HiddenField ID="HiddenFieldTypeTour" runat="server" />
                     <div class="col">
                         <asp:Button ID="ButtonSelectPT" runat="server" Text="เลือกเเพ็คเกจทัวร์" OnClientClick="ptSetModal();return false;" CssClass="btn btn-success btn-block" />
@@ -253,13 +254,7 @@
                              <div class="col-12 col-md my-2">
                                  <label>ราคา</label>
                                  <asp:TextBox ID="TextBoxPrice" runat="server" Text='<%# Eval("t_price") %>' CssClass="form-control " TextMode="Number" ReadOnly="true"></asp:TextBox>
-
-                                 <label class="mt-1">เลือกสถานะของทัวร์</label>
-                    <asp:DropDownList ID="DropDownListStatus" runat="server" DataSourceID="SqlDataSource1" DataTextField="th_name" DataValueField="id" CssClass="form-control">
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT        id, th_name, en_name, th_detail, en_detail
-FROM            book_status
-WHERE        (id IN (2,  5))"></asp:SqlDataSource>
+                  
                     <br />
                              </div>
                          </div>
@@ -418,12 +413,7 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
                 <div class="col-12 col-md my-2">
                     <label>ราคา</label>
                 <asp:TextBox ID="TextBoxPrice" runat="server" CssClass="form-control " TextMode="Number" ></asp:TextBox>
-                    <label class="mt-1">เลือกสถานะของทัวร์</label>
-                    <asp:DropDownList ID="DropDownListStatus" runat="server" DataSourceID="SqlDataSource1" DataTextField="th_name" DataValueField="id" CssClass="form-control">
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT        id, th_name, en_name, th_detail, en_detail
-FROM            book_status
-WHERE        (id IN (2,  5))"></asp:SqlDataSource>
+                   
                     <br />
                 </div>
     
@@ -611,6 +601,20 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
                 <label class="mt-2">รายละเอียดเพิ่มเติม</label>
                   <hr />
 
+                    <label class="mt-1">เลือกสถานะของทัวร์</label>
+
+                    <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" >
+                        <asp:ListItem Value="1">อยู่ระหว่าการพิจารณา</asp:ListItem>
+                        <asp:ListItem Value="2">ส่งหลักฐานทางการเงิน</asp:ListItem>
+                        <asp:ListItem Value="3" >ถูกยกเลิก</asp:ListItem>
+                        <asp:ListItem Value="4">ยืนยันการโอนเงิน</asp:ListItem>
+                        <asp:ListItem Value="5">สำเร็จ</asp:ListItem>
+                        <asp:ListItem Value="6">ล้มเเหลว</asp:ListItem>
+                        <asp:ListItem Value="7">ทัวร์แล้ว</asp:ListItem>
+                    </asp:DropDownList>
+
+                   <br />
+
             <asp:Calendar ID="CalendarPicker" runat="server" CssClass="w-100" OnDayRender="CalendarPicker_DayRender"></asp:Calendar>
                   
                    
@@ -677,6 +681,14 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
                     <label>รายละเอียดเพิ่มเติม</label>
                     <asp:TextBox ID="TextBoxMoredetail" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
                 </div>
+                <div class="col-12 form-group">
+                <hr />
+                <h6>หลักฐานการโอนเงิน</h6>
+                <div class="col-12">
+                   <asp:Image ID="ImgPayment" runat="server" ImageUrl="~/DataStorage/LocationImg/No_Image_Available.jpg" />
+                </div>
+            </div>
+
             </div>
         </div>
                 
@@ -747,6 +759,11 @@ WHERE        (id IN (2,  5))"></asp:SqlDataSource>
              PKShowShow()
             
             
+        }
+
+        function HideEdit() {
+            
+            document.getElementById("HideEdit").style.display = 'none';
         }
     </script>
 
