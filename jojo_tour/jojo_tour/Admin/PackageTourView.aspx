@@ -17,7 +17,7 @@
                         <div class="row w-100">
                             <div class="ml-auto">
                                 <asp:Button ID="Button1" runat="server" Text="Edit" CssClass="btn btn-warning " OnClick="ButtonEdit_Click" />
-                                <asp:Button ID="Button2" runat="server" Text="Delete" CssClass="btn btn-danger " OnClick="ButtonDel_Click" />
+                                <asp:Button ID="Button2" runat="server" Text="Delete" CssClass="btn btn-danger " OnClientClick="return confirm('ต้องการลบทัวร์นี้?')" OnClick="ButtonDel_Click" />
                             </div>
 
                         </div>
