@@ -11,4 +11,12 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     {
 
     }
+
+    protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        if (e.CommandName == "order_btn")
+        {
+            Response.Redirect("Review.aspx?id=" + e.CommandArgument);
+        }
+    }
 }
