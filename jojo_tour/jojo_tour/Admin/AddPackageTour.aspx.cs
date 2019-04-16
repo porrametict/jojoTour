@@ -398,7 +398,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         using (SqlConnection ConObj = new SqlConnection(ConnectString))
         {
             ConObj.Open();
-            String SQL = "UPDATE tour SET en_name=@en_name,th_name=@th_name,en_detail=@en_detail,th_detail=@th_detail,price=@price,type_tour_id=@type_tour_id where tour_code =@id ";
+            String SQL = "UPDATE tour SET en_name=@en_name,th_name=@th_name,en_detail=@en_detail,th_detail=@th_detail,price=@price,type_tour_id=@type_tour_id";
             using (SqlCommand CmObj = new SqlCommand())
             {
                 CmObj.CommandText = SQL;
@@ -408,7 +408,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                 CmObj.Parameters.AddWithValue("@en_detail", TextBoxENdetail.Text);
                 CmObj.Parameters.AddWithValue("@th_detail", TextBoxTHdetail.Text);
                 CmObj.Parameters.AddWithValue("@price", TextBoxPrice.Text);
-                CmObj.Parameters.AddWithValue("@id",Request.QueryString["id"]);
                 CmObj.Parameters.AddWithValue("@type_tour_id", "1");
 
                 if (CmObj.ExecuteNonQuery() != 0) {
