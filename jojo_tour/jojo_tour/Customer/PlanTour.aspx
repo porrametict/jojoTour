@@ -186,8 +186,7 @@
                             </LayoutTemplate>
                         </asp:ListView>
                                 </ContentTemplate>
-
-                              
+                           
                            </asp:UpdatePanel>
                     </div>
                 </div>
@@ -239,6 +238,7 @@
                                                 <div class="col">
                                                     <div class="row align-items-center h-100 justify-content-center">
                                                         <asp:Button ID="ButtonAddPlace" CssClass="btn btn-danger" runat="server" CommandName="add_place" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="เพิ่ม"  />
+                                                        <asp:Button ID="ButtonViewPlace" CssClass="btn btn-success" runat="server" CommandName="view_place" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="ดู"  />
                                                     </div>
 
                                                 </div>
@@ -323,6 +323,7 @@
                                                 <div class="col">
                                                     <div class="row align-items-center h-100 justify-content-center">
                                                         <asp:Button ID="Button1" CssClass="btn btn-danger" runat="server" CommandName="add_hotel" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="เพิ่ม" />
+                                                         <asp:Button ID="ButtonViewHotel" CssClass="btn btn-success" runat="server" CommandName="view_hotel" CommandArgument='<%# Eval("id") %>' UseSubmitBehavior="false" Text="ดู"  />
                                                     </div>
 
                                                 </div>
@@ -375,9 +376,6 @@
                <div class="bg-white border rounded p-3 my-2">
                 <label class="mt-2">รายละเอียดเพิ่มเติม</label>
                   <hr />
-
-                    <label class="mt-1">เลือกสถานะของทัวร์</label>
-
                     <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" Visible="False">
                         <asp:ListItem Value="1" Selected="True">อยู่ระหว่าการพิจารณา</asp:ListItem>
                         <asp:ListItem Value="2">ส่งหลักฐานทางการเงิน</asp:ListItem>

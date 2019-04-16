@@ -289,6 +289,10 @@ public partial class _Default : Page
 
 
         }
+        if (e.CommandName == "view_place")
+        {
+            Response.Redirect("LocationView.aspx?id=" + e.CommandArgument);
+        }
 
     }
 
@@ -305,8 +309,12 @@ public partial class _Default : Page
             System.Diagnostics.Debug.WriteLine("add" + (string)Session["hotelSelected"]);
             LoadSelectedHotel();
 
+            
 
-
+        }
+        if (e.CommandName == "view_hotel")
+        {
+            Response.Redirect("LocationView.aspx?id=" + e.CommandArgument);
         }
 
     }
