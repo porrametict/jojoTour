@@ -16,8 +16,6 @@
                 </div>
 
 
-
-
                 <!--รูป-->
                 <div class="container my-2 border">
 
@@ -58,18 +56,26 @@
 
                         <!--การสั่งจอง-->
 
-                        
+
                         <div class="col-4 overview-right">
-                            <br /><br />
+                            <br />
+                            <br />
                             <div class="card w-100 summary-details rounded-0">
                                 <div class="card-body p-3">
                                     <div class="row no-gutters">
                                         <div class="mb-2 col-8">
-                                            <p class="d-inline-block m-0 text-secondary">
-                                                content & price <br />
-                                                from Package JojoDB <br /><br />
-                                                ...<br />
-                                            </p>
+                                            <div class="d-inline-block m-0 text-secondary">
+                                                <b class="h5"> ชื่อทัวร์ : </b>
+                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("th_name") %>' CssClass="h3" />
+                                                <br />
+
+                                                <b class="h5">ราคา : </b>
+                                                <asp:Label ID="Label4" runat="server" Text='<%# Eval("price") %>' CssClass="h3" />
+                                                                                                <b class="h5">บาท</b>
+
+
+                                                
+                                            </div>
 
                                             <asp:DataList ID="DataList2" runat="server"></asp:DataList>
 
@@ -79,57 +85,58 @@
                                     </div>
                                 </div>
                             </div>
-                        
 
 
-                        <div class="card w-100 px-3 py-3 text-center booking-channels booking-channels--large-device">
 
-                            
+                            <div class="card w-100 px-3 py-3 text-center booking-channels booking-channels--large-device">
 
-                            <div class="col-sm-13">
-                                <div class="font-weight-bold">ช่องทางการสั่งจองแพจเก็จ</div> <br />
 
-                              <%--  <button type="button" class="btn btn-danger btn-lg btn-block">
+
+                                <div class="col-sm-13">
+                                    <div class="font-weight-bold">ช่องทางการสั่งจองแพจเก็จ</div>
+                                    <br />
+
+                                    <%--  <button type="button" class="btn btn-danger btn-lg btn-block">
                                     <div class="font-weight-bold">จองผ่านเว็บ</div>
                                 </button>--%>
 
-                                <asp:LinkButton runat="server"
-                                    ID="ViewButton"
-                                    Text="จองผ่านเว็บ"
-                                    CssClass="btn btn-danger btn-lg btn-block"
-                                    CommandName="order_btn"
-                                    CommandArgument='<%# Eval("id") %>' EnableTheming="True" />
+                                    <asp:LinkButton runat="server"
+                                        ID="ViewButton"
+                                        Text="จองผ่านเว็บ"
+                                        CssClass="btn btn-danger btn-lg btn-block"
+                                        CommandName="order_btn"
+                                        CommandArgument='<%# Eval("id") %>' EnableTheming="True" />
 
 
-                                <br />
+                                    <br />
 
-                                <button type="button" class="btn btn-outline-primary btn-lg btn-block">
-                                    <div class="font-weight-bold">
-                                        <img src="icon/phone.png" height="35" width="35" />
-                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <button type="button" class="btn btn-outline-primary btn-lg btn-block">
+                                        <div class="font-weight-bold">
+                                            <img src="icon/phone.png" height="35" width="35" />
+                                            &nbsp; &nbsp; &nbsp; &nbsp;
                                             083-XXX-XXXX
-                                    </div>
-                                </button>
+                                        </div>
+                                    </button>
 
-                                <button type="button" class="btn btn-outline-success btn-lg btn-block">
-                                    <div class="font-weight-bold">
-                                        <img src="icon/line.png" height="35" width="35" />
-                                        &nbsp; &nbsp; &nbsp;
+                                    <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                                        <div class="font-weight-bold">
+                                            <img src="icon/line.png" height="35" width="35" />
+                                            &nbsp; &nbsp; &nbsp;
                                             Line:@JOJOTour
-                                    </div>
-                                </button>
+                                        </div>
+                                    </button>
+                                </div>
+
                             </div>
-
                         </div>
+
+
                     </div>
-
-
                 </div>
-                    </div>
 
 
 
-                
+
 
 
                 <!--รูป-->
