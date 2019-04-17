@@ -63,7 +63,7 @@
                         <a runat="server" class="nav-link text-danger" href="~/Admin/PlaceAndHotel">Place&Hotel</a>
                     </li>
                     <li class="nav-item">
-                        <a runat="server" class="nav-link text-danger" href="~/Customer/Home">Logout</a>
+                        <a runat="server" class="nav-link text-danger" href="~/Admin/Logout">Logout</a>
                     </li>
                 </ul>
 

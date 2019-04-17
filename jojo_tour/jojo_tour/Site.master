@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col-12 m-0 p-0 text-lg-right text-center">
-                      <a runat="server" class="nav-link text-white" href="~/Admin/Home">Admin Login</a>
+                      <a runat="server" class="nav-link text-white" href="~/Admin/Login">Admin Login</a>
                 </div>
 
             </div>
