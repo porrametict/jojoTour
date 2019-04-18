@@ -771,7 +771,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             using (SqlCommand ObjCM = new SqlCommand())
             {
                 ObjCM.Connection = ObjConn;
-                ObjCM.CommandText = "SELECT * FROM book_tour bt inner join book_status_history bs on bt.book_code = bs.book_code where bt.book_code = @id";
+                ObjCM.CommandText = "SELECT *  FROM book_tour bt inner join book_status_history bs on bt.book_code = bs.book_code where bt.book_code = @id  and created_at = (select max(created_at) from book_status_history where book_code = @id)";
                 ObjCM.Parameters.AddWithValue("@id", id);
                 SqlDataReader ObjDR = ObjCM.ExecuteReader();
                 ObjDR.Read();
@@ -806,6 +806,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
 
                 DropDownListStatus.SelectedValue = ObjDR["status_id"].ToString();
+
+
 
 
 

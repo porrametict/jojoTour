@@ -142,7 +142,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
 
         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
-
+        Response.Redirect("PlaceAndHotel.aspx");
     }
 
     private void GetData(string id)
@@ -163,7 +163,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
                 TextBoxENdetail.Text = ObjDR["en_detail"].ToString();
                 TextBoxTHdetail.Text = ObjDR["th_detail"].ToString();
                 DropDownListProvice.SelectedValue = ObjDR["province_id"].ToString();
-                DropDownListProvice.SelectedValue = ObjDR["type_location_id"].ToString();
+                DropDownListType.SelectedValue = ObjDR["type_location_id"].ToString();
                 ObjDR.Close();
             }
             ObjConn.Close();

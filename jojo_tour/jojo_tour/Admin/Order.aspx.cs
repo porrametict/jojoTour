@@ -17,14 +17,15 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
     protected void BindListView()
     {
-        string query = "SELECT bt.book_code AS book_code , bt.c_firstname  AS b_code, bt.travel_datetime AS t_time, tt.th_name AS type_name, book_status.th_name FROM book_tour AS bt INNER JOIN tour AS t ON bt.tour_code = t.tour_code INNER JOIN type_tour AS tt ON tt.id = t.type_tour_id INNER JOIN book_status_history ON bt.book_code = book_status_history.book_code INNER JOIN book_status ON book_status_history.status_id = book_status.id";
+        string query = "SELECT bt.book_code AS book_code , CONCAT(bt.c_firstname , ' ', bt.c_lastname)  AS b_code, bt.travel_datetime AS t_time  ,tt.th_name AS type_name, book_status.th_name  FROM book_tour AS bt INNER JOIN tour AS t ON bt.tour_code = t.tour_code INNER JOIN type_tour AS tt ON tt.id = t.type_tour_id INNER JOIN book_status_history bsh ON bt.book_code = bsh.book_code INNER JOIN book_status ON bsh.status_id = book_status.id where bsh.created_at in (select max(created_at) from book_status_history group by book_code)";
 
         /// keyword Search
         string SearchKeyWord = TextBoxSearch.Text;
         if (SearchKeyWord != "")
         {
             query += " and ( bt.c_firstname like '%" + SearchKeyWord + "%'";
-            query += " or bt.c_lastname like '%" + SearchKeyWord + "%' )";
+            query += " or bt.c_lastname like '%" + SearchKeyWord + "%' ";
+            query += " or bt.book_code like '%" + SearchKeyWord + "%' )";
         }
 
         /// type Filter
@@ -55,7 +56,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         }
         if (typeFilter.Length != 0)
         {
-            query += prefixType + " book_status_history.status_id in (" + typeFilter + ")";
+            query += prefixType + " bsh.status_id in (" + typeFilter + ")";
         }
 
 
