@@ -1,8 +1,6 @@
-﻿using QRCoder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -20,31 +18,8 @@ public partial class Contact : Page
             if (id != null)
             {
                 TextBox.Text = id;
-                string qrCode = "http://localhost:52653/Customer/TourTracking.aspx?id=" + id;
-                QrCodeGen(qrCode);
             }
 
-        }
-
-    }
-    private void  QrCodeGen(string Code)
-    {
-        QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(Code, QRCodeGenerator.ECCLevel.Q);
-
-        System.Web.UI.WebControls.Image imgQRCode = new System.Web.UI.WebControls.Image();
-        imgQRCode.Height = 150;
-        imgQRCode.Width = 150;
-
-        using (Bitmap bitmap = qrCode.GetGraphic(20))
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                byte[] byteImage = ms.ToArray();
-                imgQRCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
-            }
-            PHQRCode.Controls.Add(imgQRCode);
         }
 
     }

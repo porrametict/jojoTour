@@ -54,12 +54,7 @@
 
        <div class="col card p-3">
            <h5 class="text-danger">ข้อมูลการจอง</h5>
-           <hr />
-           <b>QRCode</b>
-           <asp:PlaceHolder ID="PHQRCode" runat="server"></asp:PlaceHolder>
           <hr />  
-                           <b>Detail</b>
-
               <asp:DataList ID="DataList1" runat="server" DataKeyField="book_code" DataSourceID="SqlDataSource1">
            <ItemTemplate>
                รหัสจอง:
@@ -90,14 +85,16 @@
                <asp:QueryStringParameter Name="id" QueryStringField="id" />
            </SelectParameters>
        </asp:SqlDataSource>
-           <hr />
+
                        <div>
-                <b>Upload Payment Slip</b>
+                Upload Payment Slip
   
              <asp:FileUpload ID="FileUpload1" CssClass="form-control-file my-2" runat="server" />
 
             </div>
-        
+
+
+           
 
            <div class="row justify-content-end mx-1">
                 <asp:Button ID="ButtonSave" runat="server" Text="อัพโหลด" CssClass="btn btn-success btn-block" OnClick="ButtonSave_Click"/>
