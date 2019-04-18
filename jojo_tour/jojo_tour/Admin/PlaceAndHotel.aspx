@@ -71,8 +71,8 @@
                         </div>
 
                     </div>
-                    <div class="row justify-content-center mt-3">
-                        <asp:DataPager ID="DataPagerLocation" runat="server">
+                    <div class="row justify-content-center my-3">
+                        <asp:DataPager ID="DataPagerLocation" runat="server" PageSize="9">
                             <Fields>
                                 <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False" ButtonCssClass="btn btn-primary" />
                                 <asp:NumericPagerField />

@@ -26,7 +26,7 @@ public partial class _Default : System.Web.UI.Page
         SqlConnection con = new SqlConnection(cs);
         con.Open();
         DataTable dt = new DataTable();
-        SqlDataAdapter adapt = new SqlDataAdapter("Select * from comment Order by Id Desc", con);
+        SqlDataAdapter adapt = new SqlDataAdapter("Select * from comment c inner join book_tour bt on bt.book_code = c.book_code Order by Id Desc", con);
         adapt.Fill(dt);
         con.Close();
         PagedDataSource pds = new PagedDataSource();
@@ -58,7 +58,7 @@ public partial class _Default : System.Web.UI.Page
         {
             if (checkBookCode() == true)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Insert is successfull')", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Comment Posed Successfully')", true);
                 InsertData();
             }
 
@@ -150,15 +150,15 @@ public partial class _Default : System.Web.UI.Page
 
         SqlConnection con = new SqlConnection(cs);
         con.Open();
-        SqlCommand cmd = new SqlCommand("insert into comment(text,rate) values(@text,@rate)", con);
-        //cmd.Parameters.AddWithValue("@book_code", txtbook_code.Text);
+        SqlCommand cmd = new SqlCommand("insert into comment(book_code,text,rate) values(@book_code,@text,@rate)", con);
+        cmd.Parameters.AddWithValue("@book_code", txtbook_code.Text);
         cmd.Parameters.AddWithValue("@text", txtComment.Text);
         //cmd.Parameters.AddWithValue("@created_at", txtName.Text);
         cmd.Parameters.AddWithValue("@rate", gender);
         cmd.ExecuteNonQuery();
         con.Close();
         //Displaying Javascript alert Comment Posted Successfully
-        ScriptManager.RegisterStartupScript(this, this.GetType(), "popup", "alert('Comment Posted Successfully.');window.location='default3.aspx';", true);
+        //ScriptManager.RegisterStartupScript(this, this.GetType(), "popup", "alert('Comment Posed Successfully.');window.location='Review.aspx';", true);
         fillData();
         //txtbook_code.Text = "";
         //txtBookCode.Text = "";

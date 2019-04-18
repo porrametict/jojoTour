@@ -349,7 +349,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
         LoadSelectedPlace();
 
         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
-
+        Response.Redirect("PackageTour.aspx");
 
     }
 
