@@ -5,8 +5,9 @@
     <hr />
 
     <div class="row">
-        <div class="col px-5 py-2 border m-1 bg-light order-1">
-            <label class="h5 mt-3">รายละเอียดผู้จอง</label>
+        <div class="col px-5 py-2 border m-1 bg-light order-1 ">
+            <div class="sticky-top">
+                 <label class="h5 mt-3">รายละเอียดผู้จอง</label>
             <hr />
             <div class="form-group ">
                 <label>ชื่อผู้จอง*</label>
@@ -40,6 +41,8 @@
             <div class="row justify-content-end mx-1 form-group">
                 <asp:Button ID="ButtonSave" runat="server" Text="บันทึกการจอง" CssClass="btn btn-success btn-block" OnClick="ButtonSave_Click" />
             </div>
+            </div>
+           
 
             
         </div>
@@ -602,7 +605,6 @@
                   <hr />
 
                     <label class="mt-1">เลือกสถานะของทัวร์</label>
-
                     <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" >
                         <asp:ListItem Value="1">อยู่ระหว่าการพิจารณา</asp:ListItem>
                         <asp:ListItem Value="2">ส่งหลักฐานทางการเงิน</asp:ListItem>
