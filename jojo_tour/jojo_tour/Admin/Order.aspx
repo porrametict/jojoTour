@@ -18,7 +18,7 @@
     <div class="my-3">
         <div class="row">
 
-             <div class="col-12 col-lg-3 border text-center">
+             <div class="col-12 col-lg border text-center">
             <br />
             <h4>ตัวกรอง</h4>
             <hr />
@@ -32,9 +32,10 @@
         </div>
 
 
-            <div class="col-12 col-lg-9 my-2">
+            <div class="col-12 col-lg-10 my-2">
                 <asp:GridView ID="GridViewOrder" runat="server" AutoGenerateColumns="False" DataKeyNames="b_code"  CssClass="table table-bordered" EmptyDataText="ไม่มีข้อมูล">
             <Columns>
+                <asp:BoundField DataField="book_code" HeaderText="รหัสจอง" ReadOnly="True" SortExpression="book_code" />
                 <asp:BoundField DataField="b_code" HeaderText="ผู้จอง" ReadOnly="True" SortExpression="b_code" />
                 <asp:BoundField DataField="type_name" HeaderText="ประเภททัวร์" SortExpression="type_name" />
                 <asp:BoundField DataField="th_name" HeaderText="สถานะทัวร์" SortExpression="th_name" />

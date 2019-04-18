@@ -605,15 +605,11 @@
                   <hr />
 
                     <label class="mt-1">เลือกสถานะของทัวร์</label>
-                    <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" >
-                        <asp:ListItem Value="1">อยู่ระหว่าการพิจารณา</asp:ListItem>
-                        <asp:ListItem Value="2">ส่งหลักฐานทางการเงิน</asp:ListItem>
-                        <asp:ListItem Value="3" >ถูกยกเลิก</asp:ListItem>
-                        <asp:ListItem Value="4">ยืนยันการโอนเงิน</asp:ListItem>
-                        <asp:ListItem Value="5">สำเร็จ</asp:ListItem>
-                        <asp:ListItem Value="6">ล้มเเหลว</asp:ListItem>
-                        <asp:ListItem Value="7">ทัวร์แล้ว</asp:ListItem>
+                    <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" DataSourceID="SqlDataSourceStatus" DataTextField="th_name" DataValueField="id" >
+     
                     </asp:DropDownList>
+
+                   <asp:SqlDataSource ID="SqlDataSourceStatus" runat="server" ConnectionString="<%$ ConnectionStrings:jojoDBConnectionString %>" SelectCommand="SELECT * FROM [book_status]"></asp:SqlDataSource>
 
                    <br />
 
