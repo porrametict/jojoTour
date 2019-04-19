@@ -1,51 +1,60 @@
-﻿<%@ Page Title="gggd" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Review.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="Review" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Review.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
+    <h3><%: Title %></h3>
+    <hr />
+    <br />
 
     <div class="container">
-        <h4 style="text-decoration: underline;">Comments</h4>
         <asp:Repeater ID="Repeater1" runat="server">
             <ItemTemplate>
-                <div class="commentbox">
-                    <b>Name :</b>
-                    <asp:Label ID="Label1" runat="server" Text='<%#Eval("c_firstname") %>'></asp:Label>
-                    <asp:Label ID="Label2" runat="server" Text='<%#Eval("c_lastname") %>'></asp:Label><br />
-                    <b>Date :</b>
-                    <asp:Label ID="Label3" runat="server" Text='<%#Eval("created_at") %>'></asp:Label><br />
-                    <b>Bookcode :</b>
-                    <asp:Label ID="Label4" runat="server" Text='<%#Eval("book_code") %>'></asp:Label><br />
-                    <br />
-                    <asp:Label ID="Label5" runat="server" Text='<%#Eval("text") %>'></asp:Label>
-                    <b>
-                        <asp:Label ID="Label6" runat="server" Text="Rating : "></asp:Label></b>
-                    <asp:Label ID="Label7" runat="server" Text='<%#Eval("rate") %>'></asp:Label><br />
-                    <br />
-                    <b>Phone :</b>
-                    <asp:Label ID="Label8" runat="server" Text='<%#Eval("c_phone") %>'></asp:Label>
-                    &nbsp;<b>Email :</b>
-                    <asp:Label ID="Label9" runat="server" Text='<%#Eval("c_email") %>'></asp:Label><br />
-
-                    <br />
+                <div class="containermain">
+                    <div class="commentboxfront">
+                        <%-- <b>Bookcode :</b><asp:Label ID="Label4" runat="server" Text='<%#Eval("book_code") %>'></asp:Label><br />--%>
+                        <br />
+                        <asp:Label ID="Label5" runat="server" Text='<%#Eval("text") %>'></asp:Label><br />
+                        <br />
+                        <b>
+                            <asp:Label ID="Label6" runat="server" Text="Rating : "></asp:Label></b>
+                        <asp:Label ID="Label7" runat="server" Text='<%#Eval("rate") %>'></asp:Label><br />
+                        <br />
+                    </div>
                 </div>
+                <div class="containersecond">
+                    <div class="namefront">
+                        <b>Name : </b>
+                        <asp:Label ID="Label1" runat="server" Text='<%#Eval("c_firstname") %>'></asp:Label>
+                        <asp:Label ID="Label2" runat="server" Text='<%#Eval("c_lastname") %>'></asp:Label>
+                        <b>Phone : </b>
+                        <asp:Label ID="Label11" runat="server" Text='<%#Eval("c_phone") %>'></asp:Label>
+                        <b>Email : </b>
+                        <asp:Label ID="Label12" runat="server" Text='<%#Eval("c_email") %>'></asp:Label>
+                        <b>Date : </b>
+                        <asp:Label ID="Label4" runat="server" Text='<%#Eval("created_at") %>'></asp:Label><br />
+                    </div>
+                </div>
+                <br />
             </ItemTemplate>
         </asp:Repeater>
+    </div>
 
         <div style="overflow: hidden;">
-            <asp:Repeater ID="rptPaging" runat="server" OnItemCommand="rptPaging_ItemCommand">
-                <ItemTemplate>
-                    <asp:LinkButton ID="btnPage"
-                        Style="padding: 8px; margin: 2px; background: #007acc; border: solid 1px blue; font: 8px;"
-                        CommandName="Page" CommandArgument="<%# Container.DataItem %>"
-                        runat="server" ForeColor="White" Font-Bold="True" CausesValidation="false"><%# Container.DataItem %>
-                    </asp:LinkButton>
-                </ItemTemplate>
-            </asp:Repeater>
-        </div>
-        <br />
+        <asp:Repeater ID="rptPaging" runat="server" OnItemCommand="rptPaging_ItemCommand">
+            <ItemTemplate>
+                <asp:LinkButton ID="btnPage"
+                    Style="padding: 8px; margin: 2px; background: #007acc; border: solid 1px blue; font: 8px;"
+                    CommandName="Page" CommandArgument="<%# Container.DataItem %>"
+                    runat="server" ForeColor="white" Font-Bold="True" CausesValidation="false"><%# Container.DataItem %>
+                </asp:LinkButton>
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
 
 
-    <div class="container">
+    <hr />
+    <br />
+
+    <div class="second">
         <div class="form-group">
             <div class="form-inline">
                 <label for="txtbook_code" class="Secondary">รหัสทัวร์</label><br />
@@ -62,7 +71,7 @@
                 <br />
                 <label for="txtComment">รีวิว</label><br />
                 <div class="form-group">
-                    <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="800px" class="form-control"></asp:TextBox>
+                    <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="800px" class="form-control" Height="100px"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtComment" ErrorMessage="Please Provide Comment" ForeColor="#CC0000">*</asp:RequiredFieldValidator>
                 </div>
             </div>
@@ -86,7 +95,6 @@
             <div>&nbsp;</div>
         </div>
     </div>
-
 
 </asp:Content>
 
