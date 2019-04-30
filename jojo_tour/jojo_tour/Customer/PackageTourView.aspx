@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
     <h3><%: Title %></h3>
     <hr />
-    <div class="bg-white border rounded p-3">
+    <div class="bg-light border rounded p-3">
 
         <asp:DataList ID="DataList1" runat="server" DataKeyField="id" DataSourceID="SqlDataSource1" RepeatLayout="Flow" OnItemCommand="DataList1_ItemCommand">
             <ItemTemplate>
@@ -14,14 +14,15 @@
                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("th_name") %>' CssClass="h3" />
                     </div>
                 </div>
-
+                <hr />
                 <!--รูป-->
-                <div class="container my-2 border">
+                <div class="container my-2">
 
 
                     <div class="row overview-container">
 
                         <div class="col-8 overview-left">
+                            <div class="col-12 p-4">
                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="width: 100%; height: 500px; overflow: hidden">
                                 <asp:DataList ID="DataListImg" runat="server" DataKeyField="id" DataSourceID="SqlDataSourceIMGLocation" CssClass="carousel-inner h-100" RepeatLayout="Flow">
                                     <ItemStyle CssClass="carousel-item h-100 w-100" />
@@ -50,6 +51,7 @@
                                         }
                                     });
                                 </script>
+                            </div>
                             </div>
                         </div>
 
@@ -120,6 +122,8 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="font-weight-bold">
+                                                            <img src="icon/phone.png" height="35" width="35" />
+                                                            &nbsp; &nbsp; &nbsp;
                                                             083-XXX-XXXX
                                                         </div>
                                                     </div>
@@ -150,7 +154,11 @@
                                             <div class="modal-content text-center border-0">
 
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title mx-auto">จองผ่านทางไลน์</h4>
+                                                    <h4 class="modal-title mx-auto">
+                                                        จองผ่านทางไลน์
+                                                        <img src="icon/line.png" height="35" width="35" />
+                                                    </h4>
+                                                    
                                                 </div>
 
                                                 <div class="modal-body">
@@ -199,10 +207,13 @@
 
 
 
-
+                
                 <!--รูป-->
 
-                <div>
+                <div class="bg-white border rounded p-5 my-2">
+                   
+                    <div class="row">
+                        <div class="col">
                     <div class="font-weight-bold">ปรเภทของสถานที่ในทัวร์:</div>
                     <asp:DataList ID="DataListType" runat="server" DataSourceID="SqlDataSourceTypeLo" DataKeyField="id" RepeatLayout="Flow">
                         <ItemStyle CssClass="mx-1" />
@@ -215,11 +226,10 @@
                             <asp:QueryStringParameter Name="tour_id" QueryStringField="id" />
                         </SelectParameters>
                     </asp:SqlDataSource>
+                            </div>
+                   
 
-                    <br />
-                    <br />
-
-
+                        <div class="col">
                     <div class="font-weight-bold">จังหวัดที่ตั้งของสถานที่ในทัวร์:</div>
                     <asp:DataList ID="DataListProvince" runat="server" DataSourceID="SqlDataSourceProvince" DataKeyField="id" RepeatLayout="Flow">
                         <ItemStyle CssClass="mx-1" />
@@ -232,9 +242,12 @@
                             <asp:QueryStringParameter Name="tour_id" QueryStringField="id" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-                    <br />
-                    <br />
+                            </div>
+                        </div>
+                   <br />
+                    
 
+                    
                     <div class="font-weight-bold">รายละเอียดภาษาอังกฤษ:</div>
                     <asp:Label ID="en_detailLabel" runat="server" Text='<%# Eval("en_detail") %>' />
                     <br />
@@ -244,12 +257,12 @@
                     <asp:Label ID="th_detailLabel" runat="server" Text='<%# Eval("th_detail") %>' />
                     <br />
                     <br />
-
+                    <hr />
                     <div class="row">
 
                         <!--สถานที่ท่องเที่ยว-->
                         <div class="col">
-                            <div class="font-weight-bold">สถานที่ท่องเที่ยว:</div>
+                            <div class="font-weight-bold">&nbsp;&nbsp;&nbsp;สถานที่ท่องเที่ยว:</div>
                             <br />
                             <div>
                                 <asp:DataList ID="DataListPlace" runat="server" DataSourceID="SqlDataSourcePlace" DataKeyField="id" RepeatLayout="Flow">
@@ -294,7 +307,7 @@
                         <!--ที่พัก-->
 
                         <div class="col">
-                            <div class="font-weight-bold">ที่พัก:</div>
+                            <div class="font-weight-bold">&nbsp; &nbsp; ที่พัก:</div>
                             <br />
 
                             <div>
