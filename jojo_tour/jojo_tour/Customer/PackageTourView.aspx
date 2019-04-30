@@ -15,7 +15,6 @@
                     </div>
                 </div>
 
-
                 <!--รูป-->
                 <div class="container my-2 border">
 
@@ -56,7 +55,6 @@
 
                         <!--การสั่งจอง-->
 
-
                         <div class="col-4 overview-right">
                             <br />
                             <br />
@@ -65,20 +63,17 @@
                                     <div class="row no-gutters">
                                         <div class="mb-2 col-8">
                                             <div class="d-inline-block m-0 text-secondary">
-                                                <b class="h5"> ชื่อทัวร์ : </b>
+                                                <b class="h5">ชื่อทัวร์ : </b>
                                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("th_name") %>' CssClass="h3" />
                                                 <br />
 
                                                 <b class="h5">ราคา : </b>
                                                 <asp:Label ID="Label4" runat="server" Text='<%# Eval("price") %>' CssClass="h3" />
-                                                                                                <b class="h5">บาท</b>
+                                                <b class="h5">บาท</b>
 
-
-                                                
                                             </div>
 
                                             <asp:DataList ID="DataList2" runat="server"></asp:DataList>
-
 
 
                                         </div>
@@ -86,11 +81,7 @@
                                 </div>
                             </div>
 
-
-
                             <div class="card w-100 px-3 py-3 text-center booking-channels booking-channels--large-device">
-
-
 
                                 <div class="col-sm-13">
                                     <div class="font-weight-bold">ช่องทางการสั่งจองแพจเก็จ</div>
@@ -106,25 +97,95 @@
                                         CssClass="btn btn-danger btn-lg btn-block"
                                         CommandName="order_btn"
                                         CommandArgument='<%# Eval("id") %>' EnableTheming="True" />
-
-
                                     <br />
 
-                                    <button type="button" class="btn btn-outline-primary btn-lg btn-block">
+                                    <%--- phone number---%>
+                                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter3">
                                         <div class="font-weight-bold">
                                             <img src="icon/phone.png" height="35" width="35" />
-                                            &nbsp; &nbsp; &nbsp; &nbsp;
+                                            &nbsp; &nbsp; &nbsp;
                                             083-XXX-XXXX
                                         </div>
                                     </button>
 
-                                    <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+
+                                                <div class="modal-content text-center border-0">
+
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title mx-auto">Phone Number</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="font-weight-bold">
+                                                            083-XXX-XXXX
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-center">
+                                                        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%--- /phone number---%>
+                                    <br />
+
+
+                                    <%--- line ---%>
+                                    <button type="button" class="btn btn-outline-success btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter1">
                                         <div class="font-weight-bold">
                                             <img src="icon/line.png" height="35" width="35" />
                                             &nbsp; &nbsp; &nbsp;
-                                            Line:@JOJOTour
+                                        Line:@JOJOTour
                                         </div>
                                     </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content text-center border-0">
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title mx-auto">จองผ่านทางไลน์</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-3 d-none d-sm-flex align-items-center">
+                                                            <img class="qr-code" src="icon/jojotour-line.jpg">
+                                                        </div>
+
+                                                        <div class="col-lg-9">
+                                                            <br />
+                                                            <br />
+                                                            <br />
+                                                            <br />
+
+                                                            <div class="font-weight-bold">
+                                                                &nbsp; &nbsp;
+                                                                LINE: @JojoTour
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-center">
+                                                        <a class="btn btn-primary btn-lg" data-dismiss="modal" href="#">
+                                                            <span>Close</span>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <%--- /line ---%>
                                 </div>
 
                             </div>
