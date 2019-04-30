@@ -3,23 +3,76 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h3><%: Title %></h3>
     <hr />
-    <div class="container my-2 border">
-        <div class="row overview-container">
+    <div class="row">
+
+        <%--รายละเอียดผู้จอง --%>
+
+        <div class="col px-5 py-2 border m-1 bg-light order-1 ">
+            <div class="sticky-top">
+                <label class="h5 mt-3">รายละเอียดผู้จอง</label>
+                <hr />
+                <div class="form-group ">
+                    <label>ชื่อ*</label>
+                    <asp:TextBox ID="TextBoxFname" CssClass="form-control " runat="server"></asp:TextBox>
+                    <asp:Label ID="errorFName" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
+                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
+                </div>
+
+                <div class="form-group ">
+                    <label>นามสกุล*</label>
+                    <asp:TextBox ID="TextBoxLname" CssClass="form-control " runat="server"></asp:TextBox>
+                    <asp:Label ID="errorLName" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
+                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
+
+                </div>
+                <div class="form-group ">
+                    <label>เบอร์โทร*</label>
+                    <asp:TextBox ID="TextBoxPhone" CssClass="form-control " runat="server"></asp:TextBox>
+                    <asp:Label ID="errorPhone" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
+                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
+
+                </div>
+
+                <div class="form-group ">
+                    <label>อีเมลล์*</label>
+                    <asp:TextBox ID="TextBoxEmail" CssClass="form-control " runat="server"></asp:TextBox>
+                    <asp:Label ID="errorEmail" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
+                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
+                </div>
+                <br />
+
+                <div class="row justify-content-end mx-1 form-group">
+                    <asp:Button runat="server"
+                        ID="ButtonSave"
+                        Text="จองทริปเลย"
+                        CssClass="btn btn-danger btn-lg btn-block" OnClick="ButtonSave_Click" />
+                </div>
+            </div>
+
+        </div>
+
+        <%--/รายละเอียดผู้จอง --%>
 
 
-            <div class="col-7 overview-left">
 
+        <%-- part2 --%>
+
+        <div class="col-12 col-md-8 border px-5 py-2 m-1 bg-light order-0">
+
+            <%--รายละเอียดทัวร์ --%>
+            <div class="bg-white border rounded p-3 my-2">
                 <label class="h5 mt-3">รายละเอียดทัวร์</label>
-
+                <hr />
 
                 <asp:ListView ID="ListView1" runat="server">
                     <EmptyDataTemplate>
                         <div class="row  m-2">
-                            <span class="alert alert-secondary w-100 text-center">ไม่ข้อมูล.</span>
+                            <span class="alert alert-secondary w-100 text-center">ไม่มีข้อมูล.</span>
                         </div>
                     </EmptyDataTemplate>
 
                     <ItemTemplate>
+
                         <div class="col-12 my-2">
                             <div class="card">
                                 <img id="Image1" src='<%# Eval("img") %>' class="card-img-top img-fluid" onerror="this.onerror=null;this.src='/DataStorage/LocationImg/No_Image_Available.jpg'" />
@@ -46,78 +99,18 @@
                     </LayoutTemplate>
                 </asp:ListView>
 
+                <%--/รายละเอียดทัวร์ --%>
 
+                <div class="bg-white border rounded p-3 my-2">
+                    <div class="text-center">
+                        <label class="mt-2 text-center">รายละเอียดเพิ่มเติม</label>
 
-                <div class="col-3 m-5 overview-right">
-                    <div class="card w-100 summary-details rounded-0">
-                        <div class="card-body p-3">
-                            <div class="row no-gutters">
-                                <div class="mb-2 col-8">
-                                    <div class="d-inline-block m-0 text-secondary">
-
-                                        <label class="h5 mt-3">รายละเอียดผู้จอง</label>
-                                        <hr />
-                                        <div class="form-group ">
-                                            <label>ชื่อ*</label>
-                                            <asp:TextBox ID="TextBoxFname" CssClass="form-control " runat="server"></asp:TextBox>
-                                            <asp:Label ID="errorFName" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
-                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
-                                        </div>
-
-                                        <div class="form-group ">
-                                            <label>นามสกุล*</label>
-                                            <asp:TextBox ID="TextBoxLname" CssClass="form-control " runat="server"></asp:TextBox>
-                                            <asp:Label ID="errorLName" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
-                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
-
-                                        </div>
-                                        <div class="form-group ">
-                                            <label>เบอร์โทร*</label>
-                                            <asp:TextBox ID="TextBoxPhone" CssClass="form-control " runat="server"></asp:TextBox>
-                                            <asp:Label ID="errorPhone" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
-                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
-
-                                        </div>
-
-                                        <div class="form-group ">
-                                            <label>อีเมลล์*</label>
-                                            <asp:TextBox ID="TextBoxEmail" CssClass="form-control " runat="server"></asp:TextBox>
-                                            <asp:Label ID="errorEmail" runat="server" Text="กรุณากรอกช่องนี้" class="text-danger" Visible="false">
-                    <a href="#" onclick="alert('ในการกรอกข้อมูล คุณจำเป็นที่จะต้องกรอกข้อมูลทุกช่อง ที่มีเครื่องหมาย * ตามหลัง')" class="text-danger">กรุณากรอกช่องนี้</a></asp:Label>
-                                        </div>
-
-
-
-
-                                        <div class="row justify-content-end mx-1 form-group">
-                                            <asp:Button runat="server"
-                                                ID="ButtonSave"
-                                                Text="จองทริปเลย"
-                                                CssClass="btn btn-danger btn-lg btn-block" OnClick="ButtonSave_Click" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
-
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-
-            <div>
-                <div class="bg-white border rounded p-3 my-2 ">
-                    <label class="mt-2">รายละเอียดเพิ่มเติม</label>
                     <hr />
+
+                    <label>เลือกวันเดินทาง</label>
+                    <asp:Calendar ID="CalendarPicker" runat="server" CssClass="w-100" OnDayRender="CalendarPicker_DayRender"></asp:Calendar>
+
                     <asp:DropDownList ID="DropDownListStatus" runat="server" CssClass="form-control" Visible="False">
                         <asp:ListItem Value="1" Selected="True">อยู่ระหว่าการพิจารณา</asp:ListItem>
                         <asp:ListItem Value="2">ส่งหลักฐานทางการเงิน</asp:ListItem>
@@ -129,9 +122,7 @@
                     </asp:DropDownList>
 
                     <br />
-                    เลือกวันเดินทาง
 
-            <asp:Calendar ID="CalendarPicker" runat="server" CssClass="w-100" OnDayRender="CalendarPicker_DayRender"></asp:Calendar>
 
                     <br />
                     <div class="row">
@@ -198,15 +189,20 @@
                             <asp:TextBox ID="TextBoxMoredetail" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
                         </div>
                         <div class="col-12 form-group">
-                            <hr />
                         </div>
 
                     </div>
+
+
+
+
+
+
+
+
                 </div>
             </div>
-
         </div>
-
-
+        <%-- part2 --%>
     </div>
 </asp:Content>
