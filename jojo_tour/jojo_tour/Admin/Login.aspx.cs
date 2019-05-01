@@ -33,6 +33,10 @@ public partial class Admin_Login : System.Web.UI.Page
                     Session["AdminId"] = ObjDR["username"].ToString();
 
                 }
+                else
+                {
+                    //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Login Fail!','username หรือ password อาจจะไม่มีในระบบ','error')", true);
+                }
                 ObjDR.Close();
             }
             ObjConn.Close();
