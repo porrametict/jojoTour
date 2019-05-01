@@ -26,6 +26,7 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void ButtonSave_Click(object sender, EventArgs e)
 
     {
+
         String SQL;
 
         if (Request.QueryString["id"] != null)
@@ -143,6 +144,8 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('Good job!','บันทึกสำเร็จเเล้ว','success')", true);
         Response.Redirect("PlaceAndHotel.aspx");
+
+
     }
 
     private void GetData(string id)
@@ -169,5 +172,6 @@ public partial class Customer_PackageTour : System.Web.UI.Page
             ObjConn.Close();
         }
     }
+
 
 }
