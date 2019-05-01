@@ -28,7 +28,7 @@
     </style>
 
 </head>
-<body>
+<body style="background-image:url('http://chalounsukcredit.com/wp-content/uploads/2018/09/bg-trouglovi2.jpg')">
     <form id="form1" runat="server" class="w-100 h-100 container">
         <div class="row w-100 h-100 ">
             <div class="Absolute-Center is-Responsive">
@@ -44,7 +44,7 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidatorUname" runat="server" ErrorMessage="RequiredFieldValidator" Display="Dynamic" ForeColor="#FF3300" ControlToValidate="TextBoxUsername" SetFocusOnError="True" CssClass="mb-2">กรุณากรอกช่องนี้</asp:RequiredFieldValidator>
                         <br />
                         <asp:Label ID="Label2" runat="server" Text="Password"></asp:Label>
-                        <asp:TextBox ID="TextBoxPassword" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="TextBoxPassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidatorPass" runat="server" ErrorMessage="RequiredFieldValidator" Display="Dynamic" ForeColor="#FF3300" ControlToValidate="TextBoxPassword" SetFocusOnError="True">กรุณากรอกช่องนี้</asp:RequiredFieldValidator>
 
                         <br />
