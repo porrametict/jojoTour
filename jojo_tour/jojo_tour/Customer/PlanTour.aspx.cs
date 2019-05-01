@@ -35,18 +35,26 @@ public partial class _Default : Page
     protected void ButtonSave_Click(object sender, EventArgs e)
 
     {
-        if (Request.QueryString["id"] != null)
+        if (checkData() == true)
         {
-            SaveUpdateStatus(Request.QueryString["id"]);
+            if (Request.QueryString["id"] != null)
+            {
+                SaveUpdateStatus(Request.QueryString["id"]);
+            }
+            else
+            {
+                MainSave();
+
+            }
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"]
+                   + " ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
+            Response.Redirect("TourTracking.aspx?id=" + Session["book_code"]);
+
         }
         else
         {
-            MainSave();
-
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองไม่สำเร็จ!','กรุณากรอกข้อมูลให้ครบ','error')", true);
         }
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"] 
-        +" ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
-        Response.Redirect("TourTracking.aspx?id="+ Session["book_code"]);
 
 
     }
@@ -648,6 +656,38 @@ public partial class _Default : Page
     {
         loadCalender(e);
        
+    }
+
+
+    private bool checkData()
+    {
+        if (TextBoxFname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxLname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxEmail.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxPhone.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (CalendarPicker.SelectedDate.Date == DateTime.MinValue.Date)
+        {
+            return false;
+
+        }
+
+
+
+
+        return true;
+
     }
 
 

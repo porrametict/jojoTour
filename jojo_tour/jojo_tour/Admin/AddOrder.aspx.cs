@@ -91,17 +91,26 @@ public partial class Customer_PackageTour : System.Web.UI.Page
     protected void ButtonSave_Click(object sender, EventArgs e)
 
     {
-        if (Request.QueryString["id"] != null)
+        if (checkData() == true)
         {
-            SaveUpdateStatus(Request.QueryString["id"]);
+            if (Request.QueryString["id"] != null)
+            {
+                SaveUpdateStatus(Request.QueryString["id"]);
+            }
+            else
+            {
+                MainSave();
+
+            }
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"]
+                   + " ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
         }
         else
         {
-            MainSave();
-
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองไม่สำเร็จ!','กรุณากรอกข้อมูลให้ครบ','error')", true);
         }
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"]
-               + " ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
+
+        
 
     }
 
@@ -892,6 +901,37 @@ public partial class Customer_PackageTour : System.Web.UI.Page
 
         Session["PKTourSelected"] = DT;
         LoadPKSElectTour();
+
+    }
+
+    private bool checkData()
+    {
+        if (TextBoxFname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxLname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxEmail.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxPhone.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (CalendarPicker.SelectedDate.Date == DateTime.MinValue.Date)
+        {
+            return false;
+
+        }
+
+        
+
+
+        return true;
 
     }
 

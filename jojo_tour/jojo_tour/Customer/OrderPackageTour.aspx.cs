@@ -197,9 +197,50 @@ public partial class About : Page
 
     protected void ButtonSave_Click(object sender, EventArgs e)
     {
-        MainSave();
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"]
-       + " ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
-        Response.Redirect("TourTracking.aspx?id=" + Session["book_code"]);
+
+        if (checkData() == true)
+        {
+
+            MainSave();
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองสำเร็จเเล้ว!','รหัสทัวร์ของคุณคือ " + Session["book_code"]
+           + " ติดตามทัวร์ของคุณได้ที่ Tour Tracking','success')", true);
+            Response.Redirect("TourTracking.aspx?id=" + Session["book_code"]);
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "swal('จองไม่สำเร็จ!','กรุณากรอกข้อมูลให้ครบ','error')", true);
+        }
+    }
+
+
+    private bool checkData()
+    {
+        if (TextBoxFname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxLname.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxEmail.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (TextBoxPhone.Text.Length <= 0)
+        {
+            return false;
+        }
+        else if (CalendarPicker.SelectedDate.Date == DateTime.MinValue.Date)
+        {
+            return false;
+
+        }
+
+
+
+
+        return true;
+
     }
 }
